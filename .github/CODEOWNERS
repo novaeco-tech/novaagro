@@ -1,0 +1,8 @@
+# CODEOWNERS file
+# Default owners for all files are the agro maintainers
+*         @nova-ecosystem/maintainers-sector-agro
+
+/api/     @nova-ecosystem/maintainers-sector-agro
+/app/     @nova-ecosystem/maintainers-sector-agro
+/website/ @nova-ecosystem/maintainers-sector-agro
+/tests/   @nova-ecosystem/maintainers-sector-agro
