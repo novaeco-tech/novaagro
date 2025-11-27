@@ -1,5 +1,5 @@
 {
-    "name": "Agro Sector",
+    "name": "NovaAgro Sector",
     "dockerComposeFile": "docker-compose.yml",
     // This is the service VS Code will 'attach' to.
     "service": "app",

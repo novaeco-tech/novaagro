@@ -1,4 +1,4 @@
-name: Publish Sector Artifacts (agro)
+name: Publish Sector Artifacts (novaagro)
 
 on:
   push:
@@ -49,8 +49,8 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: "agro-v${{ env.VERSION }}"
-          name: "Agro Sector v${{ env.VERSION }}"
+          tag_name: "novaagro-v${{ env.VERSION }}"
+          name: "NovaAgro Sector v${{ env.VERSION }}"
           files: |
             api.tar.gz
             app.tar.gz
@@ -60,13 +60,13 @@ jobs:
       - name: Dispatch QA
         # This triggers the ecosystem-qa repo to test this new pre-release
         run: |
-          gh api repos/nova-ecosystem/ecosystem-qa/dispatches \
+          gh api repos/novaeco-tech/ecosystem-qa/dispatches \
             -f event_type='qa-run' \
             -f client_payload='{
-                "tag": "agro-v${{ env.VERSION }}", 
-                "repo": "agro", 
-                "test_suite": "inter-agro-hub",
-                "test_suite_path": "inter_sector/test_agro_journey.py"
+                "tag": "novaagro-v${{ env.VERSION }}", 
+                "repo": "novaagro", 
+                "test_suite": "inter-novaagro-hub",
+                "test_suite_path": "inter_sector/test_novaagro_journey.py"
               }'
         env:
           GITHUB_TOKEN: ${{ secrets.DISPATCH_TOKEN }} # A PAT with repo access

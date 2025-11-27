@@ -4,22 +4,22 @@ from unittest.mock import patch
 
 API_URL = "http://api:8000"
 
-# This test runs *locally* against the agro-api only.
-# It MUST mock any calls to external enablers (e.g., hub-api).
+# This test runs *locally* against the novaagro-api only.
+# It MUST mock any calls to external enablers (e.g., novahub-api).
 
 @patch('requests.post')
 def test_create_farm_project(mock_post):
     """
-    Tests that the 'agro-api' correctly calls the 'hub-api' when
+    Tests that the 'novaagro-api' correctly calls the 'novahub-api' when
     a new farm is created.
     """
     
     # Configure the mock to return a successful response
-    # This simulates the 'hub-api' returning a new project ID
+    # This simulates the 'novahub-api' returning a new project ID
     mock_post.return_value.status_code = 201
     mock_post.return_value.json.return_value = {"id": "project-uuid-123"}
 
-    # This is our internal 'agro-api' endpoint
+    # This is our internal 'novaagro-api' endpoint
     response = requests.post(
         f"{API_URL}/v1/farms",
         json={"farm_name": "My New Farm", "location": "Nairobi"}
@@ -29,11 +29,11 @@ def test_create_farm_project(mock_post):
     assert response.status_code == 201
     assert response.json()["farm_name"] == "My New Farm"
     
-    # Test 2: Did our API correctly call the external 'hub-api'?
+    # Test 2: Did our API correctly call the external 'novahub-api'?
     mock_post.assert_called_with(
-        "http://hub-api:8000/v1/projects",
-        json={"name": "My New Farm", "type": "agro"}
+        "http://novahub-api:8000/v1/projects",
+        json={"name": "My New Farm", "type": "novaagro"}
     )
     
-    # Test 3: Did our API save the project ID it got from hub?
-    assert response.json()["hub_project_id"] == "project-uuid-123"
+    # Test 3: Did our API save the project ID it got from novahub?
+    assert response.json()["novahub_project_id"] == "project-uuid-123"
