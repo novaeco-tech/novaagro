@@ -1,9 +1,3 @@
-Here is the comprehensive `README.md` for **`novaagro`**.
-
-This document positions the sector as the **"Regenerative Agriculture Operating System"**—shifting farming from a chemical-intensive extraction model to a data-driven biological restoration model.
-
------
-
 # 🌾 NovaAgro
 
 > **The Operating System for Regenerative Agriculture.**
@@ -47,11 +41,11 @@ graph TD
     subgraph "The Intelligence Layer"
         Infra -->|Drone Imagery| Mind[NovaMind]
         Mind -->|Disease Detection| API
-        API -->|Nutrient Plan| Chem[NovaChem (Bio-inputs)]
+        API -->|Nutrient Plan| Chem["NovaChem (Bio-inputs)"]
     end
 
     subgraph "The Value Layer"
-        API -->|Harvest Log| Mat[NovaMaterial (DPP)]
+        API -->|Harvest Log| Mat["NovaMaterial (DPP)"]
         API -->|Sell Crop| Trade[NovaTrade]
         API -->|Soil Carbon| Nature[NovaNature]
     end
