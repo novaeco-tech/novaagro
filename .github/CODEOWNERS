@@ -1,8 +1,0 @@
-# CODEOWNERS file
-# Default owners for all files are the agro maintainers
-*         @novaeco-tech/maintainers-sector-novaagro
-
-/api/     @novaeco-tech/maintainers-sector-novaagro
-/app/     @novaeco-tech/maintainers-sector-novaagro
-/website/ @novaeco-tech/maintainers-sector-novaagro
-/tests/   @novaeco-tech/maintainers-sector-novaagro
