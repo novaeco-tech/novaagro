@@ -1,0 +1,118 @@
+# description: Packages API service and builds/publishes the gRPC client library.
+name: Publish API Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'api/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write # Required to create tags and releases
+  packages: write # Required to publish to GitHub Packages
+
+jobs:
+  check-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed to check existing tags
+
+      # 1. Check if Version Bumped
+      - name: Check Version & Tag
+        id: check
+        run: |
+          VERSION=$(cat api/VERSION)
+          TAG_NAME="novaagro-api-v$VERSION"
+          
+          if git rev-parse "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Tag $TAG_NAME already exists. Skipping release."
+            echo "SHOULD_RELEASE=false" >> $GITHUB_OUTPUT
+          else
+            echo "New version detected ($VERSION). Proceeding."
+            echo "SHOULD_RELEASE=true" >> $GITHUB_OUTPUT
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
+            echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          fi
+
+      # 2. Defensive Testing
+      - name: Install & Test
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        run: |
+          pip install -r api/requirements-dev.txt
+          cd api && pytest
+
+      # 3. Build Package (API Server)
+      - name: Build and Package API
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        run: |
+          mkdir -p dist
+          cp -r api/src/* dist/
+          cp api/requirements.txt dist/
+          # Debug contents
+          echo "CONTENTS OF DIST:"
+          ls -R dist
+          # Robust Tar
+          cd dist
+          tar -czf ../novaagro-api.tar.gz .
+
+      # 4. Build gRPC Client (NEW Step)
+      - name: Build gRPC Client
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        run: |
+          # Checkout devtools to get the build script
+          # We clone it to a temp directory
+          git clone https://github.com/novaeco-tech/ecosystem-devtools.git devtools
+          chmod +x devtools/scripts/build-grpc-client.sh
+          
+          # Run the build script
+          # Ensure you have created the proto file at api/proto/v1/agro.proto!
+          ./devtools/scripts/build-grpc-client.sh novaagro ${{ env.VERSION }}
+
+      # 5. Publish Client to GitHub Packages (NEW Step)
+      - name: Publish Client to GitHub Packages
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        env:
+          TWINE_USERNAME: ${{ github.actor }}
+          TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pip install twine
+          # The build script outputs to client_build/dist/
+          twine upload --repository-url https://maven.pkg.github.com/novaeco-tech client_build/dist/*
+
+      # 6. Generate QA Token (GitHub App)
+      - name: Generate QA Token
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        id: generate_qa_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.QA_APP_ID }}
+          private-key: ${{ secrets.QA_APP_PRIVATE_KEY }}
+          owner: novaeco-tech
+
+      # 7. Create Release & Tag
+      - name: Create GitHub Release
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: "NovaAgro API v${{ env.VERSION }}"
+          files: novaagro-api.tar.gz
+          prerelease: true
+          generate_release_notes: true
+
+      # 8. Signal QA
+      - name: Dispatch to Ecosystem QA
+        if: steps.check.outputs.SHOULD_RELEASE == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ steps.generate_qa_token.outputs.token }}
+          repository: novaeco-tech/ecosystem-qa
+          event-type: qa-trigger
+          client-payload: >-
+            {
+              "component": "novaagro-api",
+              "version": "${{ env.TAG_NAME }}",
+              "category": "sectors"
+            }

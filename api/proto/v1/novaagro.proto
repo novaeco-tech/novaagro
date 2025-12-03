@@ -1,0 +1,16 @@
+syntax = "proto3";
+package novaagro.v1;
+
+service AgroService {
+  rpc GetHarvestData (HarvestRequest) returns (HarvestResponse);
+}
+
+message HarvestRequest {
+  string batch_id = 1;
+}
+
+message HarvestResponse {
+  string crop_type = 1;
+  float quantity_kg = 2;
+  string harvest_date = 3;
+}

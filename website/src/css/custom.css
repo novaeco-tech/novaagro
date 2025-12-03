@@ -1,0 +1,72 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+:root {
+    --ifm-color-primary: #2e8555;
+    --ifm-color-primary-dark: #29784c;
+    --ifm-color-primary-darker: #277148;
+    --ifm-color-primary-darkest: #205d3b;
+    --ifm-color-primary-light: #33925d;
+    --ifm-color-primary-lighter: #359962;
+    --ifm-color-primary-lightest: #3cad6e;
+    --ifm-code-font-size: 95%;
+}
+
+.docusaurus-highlight-code-line {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+}
+
+/* Global wrapper for all pages */
+.main-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    /* center horizontally */
+}
+
+/* Content containers (docs, blog, etc.) */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Limit navbar inner content */
+.navbar__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    /* optional side padding */
+}
+
+/* Limit footer inner content */
+.footer__links,
+.footer__bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Force the footer columns to spread out (Community Left <-> Legal Right) */
+@media (min-width: 997px) {
+    .footer__links {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Optional: Align the text inside the Legal column to the right */
+    .footer__col:last-child {
+        text-align: right;
+        align-items: flex-end;
+    }
+}
+
+html[data-theme='dark'].docusaurus-highlight-code-line {
+    background-color: rgba(0, 0, 0, 0.3);
+}

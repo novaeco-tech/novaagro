@@ -1,0 +1,11 @@
+# description: Packages Website. Fixed triggers and tar command.
+name: Publish Website Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'website/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write

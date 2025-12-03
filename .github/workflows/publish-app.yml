@@ -1,0 +1,15 @@
+# description: Packages APP service. Includes fix for 'empty archive' error and enables manual runs.
+name: Publish APP Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'app/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write # Required to create tags and releases
+
+
+
+

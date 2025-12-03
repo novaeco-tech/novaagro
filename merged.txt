@@ -1,0 +1,3289 @@
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/README.md
+================================================================================
+
+# 🌾 NovaAgro
+
+> **The Operating System for Regenerative Agriculture.**
+> Digital management of soil health, precision farming, bio-nutrient cycles, and sustainable food supply chains.
+
+[](https://www.google.com/search?q=https://github.com/novaeco-tech/novaagro/actions)
+[](https://opensource.org/licenses/MIT)
+[](https://www.google.com/search?q=https://agriculture.novaeco.tech)
+
+**NovaAgro** is the Vertical Sector responsible for the **Food System**. While `NovaNature` manages wild ecosystems, **NovaAgro** manages productive land. It connects the biological reality of the soil (Microbiome, NPK, Carbon) with the technological layer of farm management (Robots, Irrigation, Markets).
+
+It acts as the compliance engine for the **EU Farm to Fork Strategy** and the **Common Agricultural Policy (CAP)**.
+
+-----
+
+## 🎯 Value Proposition
+
+Modern agriculture faces a crisis: degraded soil and broken supply chains. **NovaAgro** digitizes the transition to regeneration:
+
+1.  **Precision Regeneration:** Instead of blanket spraying chemicals, it uses data to apply bio-nutrients (recovered via `NovaRecycle`) exactly where needed, down to the centimeter.
+2.  **Farm-to-Fork Transparency:** Creating an immutable history for every harvest batch, proving it is organic, fair-trade, and carbon-negative.
+3.  **Automated Stewardship:** Orchestrating autonomous fleets (like `DurasAGV`) to perform labor-intensive tasks like mechanical weeding without soil compaction.
+
+-----
+
+## 🏗️ Architecture (The Digital Farm)
+
+NovaAgro acts as a Farm Management Information System (FMIS) on steroids. It aggregates data from the field and commands physical assets.
+
+```mermaid
+graph TD
+    User((Farmer)) -->|HTTPS| UI[NovaAgro Dashboard]
+    UI -->|REST| API[NovaAgro API]
+    
+    subgraph "The Field Layer"
+        API -->|Mission Plan| Robot[Product-DurasAGV]
+        API -->|Irrigation Cmd| Water[NovaWater]
+        Infra[NovaInfra] -->|Soil Sensor Data| API
+    end
+
+    subgraph "The Intelligence Layer"
+        Infra -->|Drone Imagery| Mind[NovaMind]
+        Mind -->|Disease Detection| API
+        API -->|Nutrient Plan| Chem["NovaChem (Bio-inputs)"]
+    end
+
+    subgraph "The Value Layer"
+        API -->|Harvest Log| Mat["NovaMaterial (DPP)"]
+        API -->|Sell Crop| Trade[NovaTrade]
+        API -->|Soil Carbon| Nature[NovaNature]
+    end
+```
+
+### Integrated Services
+
+  * **[NovaInfra](https://www.google.com/search?q=https://infrastructure.novaeco.tech):** Manages the "Internet of Soil"—moisture probes, weather stations, and drone bases.
+  * **[NovaMind](https://www.google.com/search?q=https://mind.novaeco.tech):** The agronomist. Analyzes satellite NDVI imagery to predict crop yield and detect pest outbreaks before they spread.
+  * **[NovaWater](https://www.google.com/search?q=https://water.novaeco.tech):** The irrigation controller. NovaAgro tells NovaWater: "Sector 7 is below wilting point; release 5000L tonight."
+  * **[NovaRecycle](https://www.google.com/search?q=https://recycling.novaeco.tech):** The nutrient source. NovaAgro connects farmers with urban compost and recovered phosphates to close the nutrient loop.
+
+-----
+
+## ✨ Key Features
+
+### 1\. The Digital Field Twin
+
+A GIS-based map of the farm, divided into management zones.
+
+  * **Soil Strata:** Tracks historical data (pH, Organic Carbon) for every square meter.
+  * **Crop Rotation Planner:** Suggests the optimal sequence (e.g., "Plant Nitrogen-fixing beans after Corn") to regenerate soil health.
+
+### 2\. Harvest Passports (Traceability)
+
+Food safety and provenance.
+
+  * **Batch Tracking:** "Batch \#55 of Tomatoes."
+  * **Data Injection:** Links the batch to the specific weather conditions, irrigation logs, and soil tests from the growing season.
+  * **Output:** A QR code for the consumer (`RetailLoop`) showing the full story of their food.
+
+### 3\. Nutrient Circularity
+
+Reducing reliance on synthetic fertilizers.
+
+  * Integration with `NovaRecycle` (Compost) and `NovaChem` (Bio-stimulants).
+  * Calculates the exact N-P-K requirement and orders organic alternatives from `NovaTrade`.
+
+### 4\. Soil Carbon Credits
+
+Monetizing regeneration.
+
+  * NovaAgro logs "No-Till" practices and cover cropping.
+  * It sends this data to `NovaNature`, which verifies the increase in Soil Organic Carbon and mints carbon credits for the farmer.
+
+-----
+
+## 🚀 Getting Started
+
+We use **DevContainers** to provide a consistent development environment.
+
+### Prerequisites
+
+  * Docker Desktop
+  * VS Code (with Remote Containers extension)
+
+### Installation
+
+1.  **Clone the repo:**
+    ```bash
+    git clone https://github.com/novaeco-tech/novaagro.git
+    cd novaagro
+    ```
+2.  **Open in VS Code:**
+      * Run `code .`
+      * Click **"Reopen in Container"** when prompted.
+3.  **Start the Sector:**
+    ```bash
+    make dev
+    ```
+      * **Dashboard:** http://localhost:3000 (Map-based Farm UI)
+      * **API:** http://localhost:8000/docs
+
+### Configuration (`.env`)
+
+```ini
+# Agronomy Settings
+GROWING_REGION=USDA_ZONE_6B
+CROP_DATABASE=FAO_ECOCROP
+
+# Integrations
+NOVAINFRA_URL=http://novainfra-api:8000
+NOVAMIND_URL=http://novamind-api:50051
+DURAS_FLEET_URL=http://product-duras-agv-api:8000
+```
+
+-----
+
+## 📂 Repository Structure
+
+This is a Monorepo containing the sector's specific logic.
+
+```text
+novaagro/
+├── api/                # Python/FastAPI (Domain Logic)
+│   ├── src/
+│   │   ├── crops/      # Growth models (GDD calculation)
+│   │   ├── soil/       # NPK and Carbon dynamics
+│   │   └── planning/   # Seasonal scheduling engine
+├── app/                # React/Leaflet Frontend (Farmer Dashboard)
+│   ├── src/
+│   │   ├── map/        # NDVI/Satellite layers
+│   │   └── calendar/   # Task management UI
+├── website/            # Documentation (Docusaurus)
+└── tests/              # Integration tests
+```
+
+-----
+
+## 🧪 Testing
+
+We use **Biological Simulation** for testing.
+
+  * **Growth Model:** `make test-grow`
+      * Simulates a season of Corn with specific temperature/rain inputs. Verifies that the "Predicted Yield" matches standard agronomic models.
+  * **Irrigation Logic:** `make test-water`
+      * Simulates a drought event. Asserts that the system triggers `NovaWater` to irrigate *only* the water-stressed zones, conserving resources.
+
+-----
+
+## 🤝 Contributing
+
+We need contributors with backgrounds in **Agronomy**, **Robotics**, and **Geospatial Data**.
+See [CONTRIBUTING.md](https://www.google.com/search?q=../.github/CONTRIBUTING.md) for details.
+
+**Maintainers:** `@novaeco-tech/maintainers-sector-novaagro`
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.github/workflows/publish-api.yml
+================================================================================
+
+# description: Packages API service. Includes fix for 'empty archive' error and enables manual runs.
+name: Publish API Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'api/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write # Required to create tags and releases
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.github/workflows/publish-app.yml
+================================================================================
+
+# description: Packages App service. Fixes shell syntax errors and empty archive issues.
+name: Publish App Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'app/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.github/workflows/publish-website.yml
+================================================================================
+
+# description: Packages Website. Fixed triggers and tar command.
+name: Publish Website Artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'website/**' ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.github/workflows/ci.yml
+================================================================================
+
+name: NovaAgro CI
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.devcontainer/devcontainer.json
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/.devcontainer/docker-compose.yml
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/usecases/level-4-complex.md
+================================================================================
+
+# Level 4: Complex (Systemic Transformation)
+
+**Focus:** System-of-systems, cross-border, policy-as-code.
+
+---
+
+## [C1] City Challenge
+
+**Description**  
+Munich creates consortium to divert 50% organic waste.
+
+**Challenges**  
+- Multi-stakeholder alignment  
+- Public funding rules  
+
+**Sustainability Problem**  
+Systemic waste reduction; public-private partnership.
+
+**User Interaction**  
+City posts challenge. NovaHub decomposes this into sub-projects: Organic Waste collection (NovaWaste), Logistics (NovaMobility), and Public Awareness (NovaSkills).
+
+**Ecosystem Usage**  
+NovaHub, NovaPolicy, NovaFin, Multiple Sectors
+
+---
+
+## [C2] Building-as-Bank
+
+**Description**  
+Building designed as material bank; components tracked for future resale.
+
+**Challenges**  
+- Long-term data persistence (50+ years)  
+- Valuation  
+
+**Sustainability Problem**  
+Eliminates demolition waste; preserves material value.
+
+**User Interaction**  
+Architect designs in NovaBuild → Materials passported in NovaMaterial → Futures contracts listed on NovaTrade → NovaBalance tracks embodied carbon.
+
+**Ecosystem Usage**  
+NovaBuild, NovaMaterial, NovaTrade, NovaBalance
+
+---
+
+## [C3] Fiber-to-Fiber
+
+**Description**  
+AI sorting + chemical recycling closes textile loop.
+
+**Challenges**  
+- Mixed fiber separation  
+- Chemical process scalability  
+
+**Sustainability Problem**  
+Circular fashion industry; reduced virgin cotton/poly.
+
+**User Interaction**  
+NovaWaste collects clothes → NovaSapien sorts → NovaMaterial chemically recycles → NovaTextile spins new yarn.
+
+**Ecosystem Usage**  
+NovaTextile, NovaSapien, NovaMaterial
+
+---
+
+## [C4] Circular Hospital
+
+**Description**  
+Hospital leases MRI (pay-per-scan) and reuses surgical tools.
+
+**Challenges**  
+- Regulatory safety  
+- Sterilization logistics  
+
+**Sustainability Problem**  
+Decouples healthcare from resource consumption.
+
+**User Interaction**  
+MRI scan triggers NovaFin payment → Used tools sent to NovaInfra hub → Sterilized → Returned via NovaMobility.
+
+**Ecosystem Usage**  
+NovaHealth, NovaFin, NovaInfra
+
+---
+
+## [C5] Automated Carbon Trading
+
+**Description**  
+Sensors verify forest capture; credits minted and sold to steel plant.
+
+**Challenges**  
+- Sensor accuracy  
+- Preventing double-counting  
+
+**Sustainability Problem**  
+Verified carbon removal; financial flow to nature.
+
+**User Interaction**  
+NovaAir sensors detect CO₂ flux → NovaBalance verifies → NovaTrade mints credit → Steel plant buys → NovaEquity pays dividend to locals.
+
+**Ecosystem Usage**  
+NovaBalance, NovaTrade, NovaAir, NovaEquity
+
+---
+
+## [C6] Autonomous Logistics
+
+**Description**  
+Swarm of DurasAGV robots manages farm logistics autonomously.
+
+**Challenges**  
+- Swarm coordination  
+- Safety  
+- Off-grid charging  
+
+**Sustainability Problem**  
+Precision agriculture; electrified logistics.
+
+**User Interaction**  
+NovaAgro sets harvest plan → NovaSapien coordinates swarm → Robots charge via NovaEnergy → NovaMobility worker optimizes paths.
+
+**Ecosystem Usage**  
+NovaAgro, NovaSapien, NovaEnergy, NovaMobility
+
+---
+
+## [C7] Algorithmic Governance
+
+**Description**  
+EU laws encoded as rules; non-compliant suppliers blocked.
+
+**Challenges**  
+- Translating law to code  
+- False positives  
+
+**Sustainability Problem**  
+Automated, inescapable regulatory compliance.
+
+**User Interaction**  
+EU releases new directive → NovaPolicy updates rule engine → `audit-worker-compliance` scans all NovaTrade suppliers → Blocks non-compliant ones.
+
+**Ecosystem Usage**  
+NovaPolicy, NovaTrade, Identity
+
+---
+
+## [C8] Urban Air Twin
+
+**Description**  
+Real-time pollution data controls city toll prices.
+
+**Challenges**  
+- Public acceptance  
+- Privacy of vehicle tracking  
+
+**Sustainability Problem**  
+Dynamic traffic management to reduce smog.
+
+**User Interaction**  
+NovaAir detects smog spike → NovaSapien raises toll price → NovaMobility notifies drivers → NovaFin processes congestion charge.
+
+**Ecosystem Usage**  
+NovaAir, NovaSapien, NovaFin
+
+---
+
+## [C9] Global Green Corps
+
+**Description**  
+Remote engineer operates recycling robot in Kenya via VR.
+
+**Challenges**  
+- Latency  
+- Cross-border labor laws  
+
+**Sustainability Problem**  
+Global skill transfer without travel emissions.
+
+**User Interaction**  
+Engineer logs into NovaSkills → Connects to NovaInfra robot via NovaSapien VR → NovaEquity audits fair cross-border pay.
+
+**Ecosystem Usage**  
+NovaSkills, NovaInfra, NovaEquity
+
+---
+
+## [C10] City-Wide Loop
+
+**Description**  
+Unified reusable cup system across entire city.
+
+**Challenges**  
+- Standardization of cups  
+- Huge reverse logistics  
+
+**Sustainability Problem**  
+Elimination of single-use cups at city scale.
+
+**User Interaction**  
+Citizens use Identity to rent cups anywhere → NovaMobility collects dirty cups → NovaWater washes → NovaPack manages inventory.
+
+**Ecosystem Usage**  
+NovaPack, NovaMobility, NovaWater, Identity
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/usecases/usecase-template.md
+================================================================================
+
+# Use Case Template
+
+This template ensures all new use cases follow a consistent format across Levels 1–4.
+
+---
+
+## Metadata
+- **ID:** UC-XXX  
+- **Level:** 1 (Onboarding) | 2 (Easy) | 3 (Medium) | 4 (Complex)  
+- **Title:** Short descriptive name  
+- **Actors:** Who is involved (user, developer, organization, enabler, sector, worker, product)  
+- **Preconditions:** What must be true before this use case starts  
+
+---
+
+## Description
+Explain the scenario in 2–3 sentences.  
+- What happens?  
+- Why is it important?  
+- Which enablers/sectors/workers/products are used?
+
+---
+
+## Steps
+1. Actor initiates action (e.g., user registers, developer generates API key).  
+2. System responds (e.g., Identity service validates credentials).  
+3. Data flows between enablers/sectors.  
+4. Outcome achieved (e.g., dashboard updated, compliance verified).
+
+---
+
+## Outcomes
+- **Positive:** Benefits, efficiency gains, sustainability impact.  
+- **Negative:** Trade‑offs, risks, limitations.  
+
+---
+
+## Related Pages
+- [Functional Requirements](../requirements/functional.md)  
+- [Architecture Overview](../architecture/overview.md)  
+- [Glossary](../glossary.md)
+
+---
+
+[⬅️ Back to Use Cases Overview](./level-1-onboarding.md)  
+[⬅️ Back to Intro](../intro.md)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/usecases/level-2-easy.md
+================================================================================
+
+# Level 2: Easy (Transactional Efficiency)
+
+**Focus:** Simple P2P/B2C transactions and data logging.
+
+---
+
+## [E1] The Waste Match
+
+**Description** 
+Bakery lists waste. NovaHub defines the resource requirement structure. NovaTrade executes the match and transfer.
+
+**Challenges** 
+- Small volume logistics  
+- Freshness  
+
+**Sustainability Problem** 
+Diverts organic waste from landfill; provides cheap local feedstock.
+
+**User Interaction** 
+Bakery defines "Waste Stream Project" on NovaHub → Listing automatically published to NovaTrade → Insect Farm accepts offer on NovaTrade → NovaFin processes payment.
+
+**Ecosystem Usage** 
+NovaHub, NovaTrade, NovaWaste, NovaFin
+
+---
+
+## [E2] Green Tutor
+
+**Description**  
+Student offers "Circular Design" tutoring. Professional books session.
+
+**Challenges**  
+- Verifying tutor expertise  
+
+**Sustainability Problem**  
+Spreads circular knowledge; income for students.
+
+**User Interaction**  
+Student lists profile on NovaSkills → Pro books slot → Pays via NovaFin → Video link generated.
+
+**Ecosystem Usage**  
+NovaSkills, NovaFin, Identity
+
+---
+
+## [E3] Ride to Factory
+
+**Description**  
+BMW employees carpool to Dingolfing plant. Riders micro‑pay drivers.
+
+**Challenges**  
+- Trust (mitigated by corporate ID)  
+- Critical mass  
+
+**Sustainability Problem**  
+Reduces Scope 3 emissions; optimizes vehicle usage.
+
+**User Interaction**  
+Employee opens NovaMobility → Finds ride → Scans QR code to join → Payment auto‑deducted.
+
+**Ecosystem Usage**  
+NovaMobility, NovaFin, Identity
+
+---
+
+## [E4] Citizen Sensor
+
+**Description**  
+Citizens test river water and upload data/photos.
+
+**Challenges**  
+- Data quality/verification  
+
+**Sustainability Problem**  
+Crowdsourced environmental monitoring; citizen engagement.
+
+**User Interaction**  
+User takes photo of test strip → Uploads to NovaWater → NovaSapien verifies reading → Data added to map.
+
+**Ecosystem Usage**  
+NovaWater, NovaBalance, NovaSapien
+
+---
+
+## [E5] Material Scout
+
+**Description**  
+Architect scans demolition site bricks to catalog them for reuse.
+
+**Challenges**  
+- Identifying material quality via vision  
+
+**Sustainability Problem**  
+Reuses high‑value construction materials; reduces virgin manufacturing.
+
+**User Interaction**  
+Architect points camera → NovaSapien identifies "Red Brick" → Creates asset in NovaBuild → Generates Passport.
+
+**Ecosystem Usage**  
+NovaBuild, NovaSapien, NovaMaterial
+
+---
+
+## [E6] Ugly Veggie Box
+
+**Description**  
+Farm sells "imperfect" produce directly to consumers.
+
+**Challenges**  
+- Last‑mile logistics  
+
+**Sustainability Problem**  
+Reduces food waste at source; supports local agro.
+
+**User Interaction**  
+Farm lists "5kg Box" on NovaAgro → Consumer buys on NovaTrade → NovaMobility schedules pickup.
+
+**Ecosystem Usage**  
+NovaAgro, NovaTrade, NovaMobility
+
+---
+
+## [E7] Solar Log
+
+**Description**  
+Homeowner logs solar production to blockchain.
+
+**Challenges**  
+- Hardware integration (inverter API)  
+
+**Sustainability Problem**  
+Verifiable green energy generation; prerequisite for carbon credits.
+
+**User Interaction**  
+Connects inverter to NovaEnergy → `novaenergy-worker` polls API daily → Writes record to NovaBalance.
+
+**Ecosystem Usage**  
+NovaEnergy, NovaBalance, Identity
+
+---
+
+## [E8] Device Return
+
+**Description**  
+Clinic requests pickup for used single‑use devices.
+
+**Challenges**  
+- Hygiene safety  
+- Categorization  
+
+**Sustainability Problem**  
+Prevents incineration of recyclable medical plastics.
+
+**User Interaction**  
+Nurse scans bin QR in NovaHealth → NovaWaste gets pickup request → Route optimized.
+
+**Ecosystem Usage**  
+NovaHealth, NovaWaste, NovaMobility
+
+---
+
+## [E9] Pollen Alert
+
+**Description**  
+Hyper‑local air quality alerts for allergy sufferers.
+
+**Challenges**  
+- Sensor density  
+
+**Sustainability Problem**  
+Improves public health; highlights pollution hotspots.
+
+**User Interaction**  
+User sets "Asthma" profile in Identity → NovaAir detects high PM2.5 → Push notification sent.
+
+**Ecosystem Usage**  
+NovaAir, NovaSapien, Identity
+
+---
+
+## [E10] Universal Bowl
+
+**Description**  
+Reusable takeout bowl system with deposit.
+
+**Challenges**  
+- Return rate  
+- Washing logistics  
+
+**Sustainability Problem**  
+Eliminates single‑use packaging waste.
+
+**User Interaction**  
+Customer scans bowl QR at cafe → Deposit deducted in NovaPack → Scans again at drop‑off bin → Deposit refunded.
+
+**Ecosystem Usage**  
+NovaPack, NovaMobility, Identity
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/usecases/level-3-medium.md
+================================================================================
+
+# Level 3: Medium (Value Chain Coordination)
+
+**Focus:** B2B, compliance, audits, and optimization.
+
+---
+
+## [M1] Startup Funding
+
+**Description**  
+Bioplastics startup matches with Investor, Lab, and Mentor.
+
+**Challenges**  
+- Due diligence  
+- IP protection  
+
+**Sustainability Problem**  
+Accelerates circular innovation capital deployment.
+
+**User Interaction**  
+Startup uses NovaHub wizard to define capital, lab, and mentorship needs. NovaHub broadcasts these requirements. Investors connect via NovaTrade (to find the opportunity) and fund via NovaFin (to transfer capital).
+
+**Ecosystem Usage**  
+NovaHub, NovaFin, NovaInfra
+
+---
+
+## [M2] Furniture Loop
+
+**Description**  
+Siemens sells 500 used chairs to Munich Re.
+
+**Challenges**  
+- Bulk logistics  
+- Condition assessment  
+
+**Sustainability Problem**  
+Extends product life; reduces furniture waste.
+
+**User Interaction**  
+Siemens lists assets on NovaTrade → Munich Re buys → NovaMobility auto‑books truck → NovaBuild updates building inventory.
+
+**Ecosystem Usage**  
+NovaTrade, NovaMobility, NovaBuild
+
+---
+
+## [M3] Compliance Check
+
+**Description**  
+Textile importer validates supplier certs against EU laws.
+
+**Challenges**  
+- Fraudulent documents  
+- Changing regulations  
+
+**Sustainability Problem**  
+Enforces ethical/environmental standards in supply chain.
+
+**User Interaction**  
+Importer uploads PDF certs to NovaPolicy → NovaSapien extracts data → Checks against EU database → Validates.
+
+**Ecosystem Usage**  
+NovaPolicy, NovaSapien, NovaTextile
+
+---
+
+## [M4] Smart Bin Route
+
+**Description**  
+Waste route optimized based on bin fullness sensors.
+
+**Challenges**  
+- Sensor reliability  
+- Dynamic routing for drivers  
+
+**Sustainability Problem**  
+Reduces collection truck CO₂; prevents bin overflow.
+
+**User Interaction**  
+Bins send level data to NovaWaste → `novamobility-worker-logistics-optimizer` calculates route → Pushed to driver app.
+
+**Ecosystem Usage**  
+NovaWaste, NovaMobility, NovaSapien
+
+---
+
+## [M5] Fair Wage Audit
+
+**Description**  
+Coffee brand payment triggers "Fair Trade" verification from farmer.
+
+**Challenges**  
+- Reaching unbanked farmers  
+- Privacy  
+
+**Sustainability Problem**  
+Social equity; verifiable ethical branding.
+
+**User Interaction**  
+Brand pays via NovaFin → Split payment sends share to Farmer → Farmer confirms receipt → NovaEquity mints badge.
+
+**Ecosystem Usage**  
+NovaFin, NovaEquity, NovaAgro
+
+---
+
+## [M6] V2G Balancing
+
+**Description**  
+EV fleet sells battery capacity to grid during peaks.
+
+**Challenges**  
+- Battery degradation concerns  
+- Grid protocol standards  
+
+**Sustainability Problem**  
+Stabilizes renewable grid; lowers EV TCO.
+
+**User Interaction**  
+Grid operator requests power → NovaEnergy signals Fleet → Chargers discharge → NovaFin settles payment.
+
+**Ecosystem Usage**  
+NovaEnergy, NovaMobility, NovaFin
+
+---
+
+## [M7] Plastic Passport
+
+**Description**  
+Recycler generates DPP for rPET pellets batch.
+
+**Challenges**  
+- Chemical traceability  
+- Data privacy  
+
+**Sustainability Problem**  
+Creates trust in secondary materials market.
+
+**User Interaction**  
+Recycler inputs batch data to NovaMaterial → NovaPolicy stamps compliance → QR generated for packaging.
+
+**Ecosystem Usage**  
+NovaMaterial, NovaPolicy, NovaWaste
+
+---
+
+## [M8] Greywater Share
+
+**Description** 
+Industrial symbiosis project where a data center pipes waste heat/water to a greenhouse.
+
+**Challenges** - 
+Physical infrastructure cost  
+- Contractual reliability  
+
+**Sustainability Problem** 
+Industrial symbiosis; energy/water efficiency.
+
+**User Interaction** 
+Project specs (flow rates, pipe requirements) defined in NovaHub → Partners matched and contract executed on NovaTrade → NovaInfra monitors real-time flow → NovaBalance audits savings → Billing via NovaFin.
+
+**Ecosystem Usage** 
+NovaHub, NovaTrade, NovaInfra, NovaBalance, NovaFin
+
+---
+
+## [M9] Corporate Refurb
+
+**Description**  
+Bank refurbishes 500 laptops for resale.
+
+**Challenges**  
+- Data security (wiping)  
+- Certification  
+
+**Sustainability Problem**  
+Extends electronics life; reduces e‑waste.
+
+**User Interaction**  
+Bank sends units to NovaTronix partner → Data wipe certified → Listed on NovaTrade → NovaSkills tracks technician labor.
+
+**Ecosystem Usage**  
+NovaTronix, NovaTrade, NovaSkills
+
+---
+
+## [M10] Solvent Lease
+
+**Description**  
+Auto plant pays for "cleaning service" (Chemical Leasing).
+
+**Challenges**  
+- Business model shift (volume to service)  
+- On‑site recycling  
+
+**Sustainability Problem**  
+Reduces chemical consumption; incentivizes recovery.
+
+**User Interaction**  
+Sensors monitor cleaning quality → NovaChem tracks solvent quality → NovaWater filters waste → NovaFin bills monthly service fee.
+
+**Ecosystem Usage**  
+NovaChem, NovaWater, NovaFin
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/usecases/level-1-onboarding.md
+================================================================================
+
+# Level 1: Onboarding & Control (Foundational Integration)
+
+**Focus:** Setup, IAM, API integration, data aggregation, and dashboard visibility.
+
+---
+
+## User Onboarding & Trust Profile
+
+**Description**  
+An individual or SME registers, verifies their identity, and establishes a "Trust Profile" holding credentials (e.g., Trade Register extract, ISO certs).
+
+**Challenges**  
+- Friction vs. Security balance  
+- GDPR compliance  
+- Cross-border verification  
+
+**Sustainability Problem**  
+Lack of trust prevents circular collaboration (e.g., *“Is this recycled plastic safe?”*).
+
+**User Interaction**  
+User visits `auth.novaeco.tech` → Registers via Email → Uploads proof of business → Admin verifies → “Verified” badge issued.
+
+**Ecosystem Usage**  
+Identity (OAuth2), NovaPolicy (Verification Standards), Central App (Profile Display)
+
+---
+
+## [O2] API Key Generation
+
+**Description**  
+A developer generates secure API keys to integrate external systems (ERP, IoT) with the ecosystem’s data streams.
+
+**Challenges**  
+- Rate limiting  
+- Secure secret storage  
+- Preventing abuse  
+
+**Sustainability Problem**  
+Siloed data prevents systemic optimization. APIs allow external systems to “speak circular.”
+
+**User Interaction**  
+Developer logs into `novahub.network/developer` → Selects scopes (`read:waste`, `write:dpp`) → Generates Key → System provisions tenant.
+
+**Ecosystem Usage**  
+Identity (OAuth2), NovaInfra (API Gateway), NovaHub (Dev Portal)
+
+---
+
+## [O3] Sustainability Dashboard
+
+**Description**  
+Users view a personalized dashboard aggregating real-time impact metrics (CO₂, waste diverted) relevant to their role.
+
+**Challenges**  
+- Data normalization across sectors  
+- Real-time latency  
+
+**Sustainability Problem**  
+“You can’t manage what you don’t measure.” Visibility drives behavioral change.
+
+**User Interaction**  
+Login to `app.novaeco.tech` → NovaBalance queries workers → Dashboard renders “CO₂ Saved” widget from NovaAir and “Water Saved” from NovaWater.
+
+**Ecosystem Usage**  
+NovaBalance (Aggregator), Identity (Preferences), NovaAir/NovaWater (Data Sources)
+
+---
+
+## [O4] Cross-Sector Data Aggregation
+
+**Description**  
+The system ingests Digital Product Passport (DPP) and LCA data from multiple sectors to create a holistic view of a product’s history.
+
+**Challenges**  
+- Semantic interoperability (mapping data standards)  
+- Handling missing data  
+
+**Sustainability Problem**  
+Fragmentation. A shirt’s impact includes NovaAgro (cotton) and NovaChem (dye) data.
+
+**User Interaction**  
+User searches “Recycled Beam” → System queries `novamaterial-worker-dpp-sync` → Merges with `novabalance-worker-impact-calculator` → Displays total footprint.
+
+**Ecosystem Usage**  
+NovaMaterial, NovaBalance, NovaHub (Search), NovaSapien (Normalization)
+
+---
+
+## [O5] Circular Marketplace Discovery
+
+**Description**  
+Users discover and connect to sector-specific apps (e.g., NovaTronix repair shops) via a central “App Store.”
+
+**Challenges**  
+- Curation quality  
+- Seamless SSO handoff  
+
+**Sustainability Problem**  
+Circular solutions exist but are invisible. Centralized discovery drives adoption.
+
+**User Interaction**  
+User browses `novaeco.tech/marketplace` → Clicks “Electronics Repair” → Redirects to `novatronix.tech` with Auth Token.
+
+**Ecosystem Usage**  
+NovaTrade (Directory), Identity (SSO), NovaTronix (Target)
+
+---
+
+## [O6] Community Governance
+
+**Description**  
+Contributors propose and vote on ecosystem changes (e.g., “Add new bioplastic standard”) via NovaPolicy.
+
+**Challenges**  
+- Voter apathy  
+- “Whale” voting dominance  
+
+**Sustainability Problem**  
+Top-down mandates fail. Bottom-up governance ensures the system meets actual needs.
+
+**User Interaction**  
+User goes to NovaPolicy → Views proposal → Stakes reputation tokens to vote “Yes” → Smart contract records vote.
+
+**Ecosystem Usage**  
+NovaPolicy (Logic), Identity (Reputation Score), NovaHub (Forum)
+
+---
+
+## [O7] Multi-Tenant Access Management
+
+**Description**  
+Large organizations manage teams, roles, and granular permissions across the ecosystem.
+
+**Challenges**  
+- Mapping complex corporate hierarchies  
+- Strict data isolation  
+
+**Sustainability Problem**  
+Corporate silos. The ESG team needs to see what Procurement is buying to align goals.
+
+**User Interaction**  
+Admin creates “Procurement Team” in Identity → Assigns read/write to NovaTrade and read-only to NovaBalance.
+
+**Ecosystem Usage**  
+Identity (RBAC), NovaHub (Team View)
+
+---
+
+## [O8] Ecosystem-Wide LCA Calculation
+
+**Description**  
+Automated background process recalculates Life Cycle Assessments (LCA) as new data (e.g., grid mix) enters the system.
+
+**Challenges**  
+- Computational load  
+- Versioning of LCA datasets  
+
+**Sustainability Problem**  
+Static LCAs are obsolete. Dynamic LCAs provide a real-time truth.
+
+**User Interaction**  
+(System) NovaEnergy updates grid intensity → `novabalance-worker-impact-calculator` triggers → Updates all relevant Product Passports.
+
+**Ecosystem Usage**  
+NovaBalance (Calc), NovaEnergy (Data), NovaMaterial (Object)
+
+---
+
+## [O9] Urban Mining Coordination
+
+**Description**  
+A project management tool orchestrating complex urban mining logistics (demolition → sorting → reuse).
+
+**Challenges**  
+- Syncing physical logistics with digital planning  
+- Uncertain material yields  
+
+**Sustainability Problem**  
+Cities are “mines,” but lack of coordination leads to landfilling.
+
+**User Interaction**  
+City Planner starts “Project Munich North” in NovaHub → Imports NovaBuild demolition data → NovaSapien predicts yield → NovaWaste reserves capacity.
+
+**Ecosystem Usage**  
+Central App (Orchestration), NovaBuild, NovaWaste, NovaSapien
+
+---
+
+## [O10] Central Audit & Compliance Dashboard
+
+**Description**  
+Regulators/Auditors view compliance status across all sectors, flagging violations (e.g., “Missing Child Labor Cert”).
+
+**Challenges**  
+- Presenting complex legal data simply  
+- Data immutability  
+
+**Sustainability Problem**  
+Greenwashing. Verified, immutable compliance data builds trust.
+
+**User Interaction**  
+Auditor logs in → Filters “Pending Reviews” → Drills into NovaTextile chain → Verifies NovaEquity proof → Approves.
+
+**Ecosystem Usage**  
+NovaPolicy (Rules), NovaEquity (Social), NovaBalance (Env)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/intro.md
+================================================================================
+
+# Introduction
+
+Welcome to the **NovaEco Documentation**!
+
+This site is the single source of truth for contributors, developers, and stakeholders. It explains the architecture, requirements, use cases, APIs, developer workflows, and best practices that power the ecosystem.
+
+---
+
+## 📐 Architecture
+Learn how the ecosystem is structured, including core services and documented **Architecture Decision Records (ADRs)**.  
+➡️ See [Architecture Overview](./architecture/overview.md)
+
+---
+
+## 📋 Requirements
+Understand the **functional, non‑functional, and sustainability requirements** that guide design and implementation.  
+➡️ See [Requirements](./requirements/functional.md)
+
+---
+
+## 📊 Use Cases
+Explore real‑world scenarios across four levels:
+- **Level 1:** Onboarding & Control  
+- **Level 2:** Transactional Efficiency  
+- **Level 3:** Value Chain Coordination  
+- **Level 4:** Systemic Transformation  
+➡️ See [Use Cases](./usecases/level-1-onboarding.md)
+
+---
+
+## 🔌 API
+Reference the **Gateway** and **Auth APIs**, with examples and testing strategies.  
+➡️ See [API Overview](./api/overview.md)
+
+---
+
+## 👩‍💻 Developers
+Step‑by‑step guides for setting up local environments, using the Nova CLI, and contributing via CI/CD workflows.  
+➡️ See [Developer Setup](./developers/setup.md)
+
+---
+
+## 📚 Guides
+Best practices, testing strategies, and sustainability guidelines for building within the ecosystem.  
+➡️ See [Developer Guide](./guides/dev-guide.md)
+
+---
+
+## 📖 Glossary
+A shared vocabulary of ecosystem terms, from **Enablers** and **Sectors** to **Workers** and **Products**.  
+➡️ See [Glossary](./glossary.md)
+
+---
+
+## 🚀 Getting Started
+If you’re new:
+1. Start with [Architecture Overview](./architecture/overview.md).
+2. Review [Functional Requirements](./requirements/functional.md).
+3. Explore [Use Cases](./usecases/level-1-onboarding.md).
+4. Try the [API Examples](./api/examples.md).
+5. Follow the [Developer Guide](./guides/dev-guide.md).
+
+---
+
+## ➡️ Next Steps
+[Next: Architecture Overview →](./architecture/overview.md)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/faq.md
+================================================================================
+
+# FAQ
+
+Frequently asked questions about the NovaEco.
+
+---
+
+## General
+**Q: What is the NovaEco?**  
+A: A collaborative infrastructure for circular economy, built on enablers, sectors, workers, and products.
+
+**Q: How do I join as a contributor?**  
+A: Register via the Identity service (`/auth`) and follow the [Contribution Guide](./developers/contribution.md).
+
+---
+
+## Development
+**Q: How do I run the ecosystem locally?**  
+A: Use DevContainers. See [Quickstart](./developers/quickstart.md).
+
+**Q: How do I add a new worker?**  
+A: Define it in the monorepo, document it in `docs/usecases`, and link it to its enabler/sector.
+
+---
+
+## Governance
+**Q: How are decisions made?**  
+A: Through ADRs and NovaPolicy governance modules.
+
+**Q: How do I propose an ADR?**  
+A: Create a new file in `docs/architecture/` with the format `adr-XXX-title.md`.
+
+---
+
+## Documentation
+**Q: How do I contribute to docs?**  
+A: Fork the repo, add or edit `.md` files, and update `sidebars.js`.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/best-practices.md
+================================================================================
+
+# Best Practices
+
+## Code
+- Write small, composable functions.
+- Follow PEP8 (Python) and ESLint (JavaScript).
+- Use ADRs for architectural decisions.
+
+## Governance
+- Document all changes in CONTRIBUTING.md.
+- Ensure transparency in decision‑making.
+
+## Sustainability
+- Prefer reusable components.
+- Embed circular economy principles in design.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/sustainability-guide.md
+================================================================================
+
+# Sustainability Guide
+
+NovaEco embeds sustainability into every layer.
+
+## Environmental
+- Support Digital Product Passports (DPP).
+- Automate Life Cycle Assessment (LCA).
+
+## Social
+- Ensure fair wage auditing via NovaEquity.
+- Inclusive onboarding for displaced experts.
+
+## Economic
+- Enable Product‑as‑a‑Service models.
+- Circular marketplaces for reuse and refurbishment.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/style-guide.md
+================================================================================
+
+# Documentation Style Guide
+
+This guide ensures all NovaEco docs remain consistent and easy to read.
+
+## Headings
+- Use `#` for page titles, `##` for sections, `###` for subsections.
+- Keep titles short and descriptive.
+
+## Tone
+- Write in clear, professional language.
+- Use active voice.
+- Avoid jargon unless defined in the Glossary.
+
+## Linking
+- Use relative links (e.g., `../requirements/functional.md`).
+- Add “Back to Intro” and “Next Steps” links at the bottom of overview pages.
+- Cross‑link related docs where relevant.
+
+## ADRs
+- File name: `adr-XXX-title.md`.
+- Sections: Context, Decision, Consequences.
+- Keep concise but complete.
+
+## Code Examples
+- Use fenced code blocks with language tags.
+- Show minimal working examples.
+
+## Navigation
+- Add new pages to `sidebars.js`.
+- Provide Previous/Next links for linear flow.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/dev-guide.md
+================================================================================
+
+# Developer Guide
+
+This guide provides practical steps for working with the NovaEco Core.
+
+## Local Development
+- Use DevContainers for consistent environments.
+- Attach to specific service containers (App, API, Auth, Website) via VS Code Remote Explorer.
+
+## Adding Dependencies
+- Python services: `pip install <package>`
+- Website (Node.js): `npm install <package>`
+
+## Debugging
+- Switch container to "sleep" mode for manual debugging.
+- Attach debugger in VS Code (F5).
+
+---
+
+## Related Pages
+- [Best Practices](./best-practices.md)
+- [Testing Guide](./testing-guide.md)
+- [Sustainability Guide](./sustainability-guide.md)
+- [Developers: Setup](../developers/setup.md)
+
+[⬅️ Back to Intro](../intro.md)
+
+[⬅️ Previous: Developer Setup](../developers/setup.md)  
+[Next: Glossary ➡️](../glossary.md)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/guide-template.md
+================================================================================
+
+# Guide Template
+
+This template ensures all new guides follow a consistent format across the documentation.
+
+---
+
+## Purpose
+Explain the goal of this guide in 2–3 sentences.  
+- Why does it exist?  
+- Who is the audience?  
+- What problem does it solve?
+
+---
+
+## Prerequisites
+List any tools, knowledge, or setup required before following this guide.  
+- Example: Docker installed, access to NovaEco, API token.
+
+---
+
+## Steps
+1. Step one — clear, actionable instruction.  
+2. Step two — include code snippets or commands if needed.  
+3. Step three — explain expected results.  
+
+---
+
+## Best Practices
+- Keep instructions concise.  
+- Use relative links to other docs.  
+- Provide examples for clarity.  
+
+---
+
+## Outcomes
+- **Positive:** Benefits or improvements expected.  
+- **Negative:** Risks, limitations, or trade‑offs.  
+
+---
+
+## Related Pages
+- [Developer Guide](./dev-guide.md)  
+- [Testing Guide](./testing-guide.md)  
+- [Sustainability Guide](./sustainability-guide.md)  
+- [Glossary](../glossary.md)
+
+---
+
+[⬅️ Back to Guides Overview](./dev-guide.md)  
+[⬅️ Back to Intro](../intro.md)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/guides/testing-guide.md
+================================================================================
+
+# Testing Guide
+
+## Unit Tests
+- Python: `pytest`
+- Node.js: `npm test`
+
+## Integration Tests
+- Run `pytest tests/integration`
+- Validate cross‑service flows (Auth + Gateway).
+
+## CI/CD
+- GitHub Actions run tests automatically.
+- Containers ensure consistent environments.
+
+## Best Practices
+- Test early and often.
+- Use mock data for sensitive flows.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/glossary.md
+================================================================================
+
+# Glossary
+
+This glossary defines common terms used across the NovaEco.
+
+## Core Concepts
+- **Enabler** — Horizontal service that provides foundational capabilities (e.g., NovaHub, NovaFin).
+- **Sector** — Application industry where circular solutions are deployed (e.g., NovaAgro, NovaBuild).
+- **Worker** — Microservice that performs a specialized task (e.g., NovaMaterial — DPP sync).
+- **Product** — Hardware or software innovation built on the ecosystem (e.g., SortBot X1, NovaBox).
+
+## Technical Terms
+- **ADR (Architecture Decision Record)** — Documented decision about system design.
+- **DPP (Digital Product Passport)** — Standardized digital record of a product’s materials and lifecycle.
+- **LCA (Life Cycle Assessment)** — Methodology for assessing environmental impacts across a product’s lifecycle.
+- **IAM (Identity and Access Management)** — Framework for managing user identities and permissions.
+- **CI/CD (Continuous Integration/Continuous Deployment)** — Automated workflows for testing and releasing software.
+
+## Governance Terms
+- **Contribution Guide** — Rules and steps for contributing to the ecosystem.
+- **Code of Conduct** — Standards of behavior for contributors.
+- **Policy-as-Code** — Encoding governance rules into automated checks.
+
+## Sustainability Terms
+- **Circular Economy** — Economic system aimed at eliminating waste and reusing resources.
+- **Urban Mining** — Recovering valuable materials from existing infrastructure and waste streams.
+- **Product-as-a-Service** — Business model where products are leased or shared rather than sold.
+
+---
+
+## Related Pages
+- [Architecture Overview](./architecture/overview.md)
+- [Functional Requirements](./requirements/functional.md)
+- [Use Cases: Level 1 Onboarding](./usecases/level-1-onboarding.md)
+- [API Overview](./api/overview.md)
+- [Developer Guide](./guides/dev-guide.md)
+
+[⬅️ Back to Intro](./intro.md)
+
+[⬅️ Previous: Developer Guide](./guides/dev-guide.md)  
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/api/overview.md
+================================================================================
+
+# API Overview
+
+The NovaEco exposes APIs through the **Gateway** service (`/api`) and the **Auth** service (`/auth`).
+
+## Principles
+- **Unified Gateway:** All requests flow through a single entry point.
+- **Secure Access:** OAuth2 authentication and API keys.
+- **Consistency:** JSON responses, standardized error codes.
+- **Transparency:** Public documentation and versioning.
+
+## Available Services
+- **Gateway:** Central REST API for data and orchestration.
+- **Auth:** Identity and access management.
+- **Sector APIs:** Each enabler/sector exposes its own endpoints.
+
+---
+
+## Related Pages
+- [Auth API](./auth.md)
+- [Gateway API](./gateway.md)
+- [API Examples](./examples.md)
+- [API Testing](./testing.md)
+- [Developers: Setup](../developers/setup.md)
+
+[⬅️ Back to Intro](../intro.md)
+
+[⬅️ Previous: Use Cases (Level 1 Onboarding)](../usecases/level-1-onboarding.md)  
+[Next: Developer Setup ➡️](../developers/setup.md)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/api/examples.md
+================================================================================
+
+# API Examples
+
+## Example: User Login
+```bash
+curl -X POST https://auth.novaeco.tech/login \
+  -d '{"username":"claudiu","password":"secret"}'
+```
+
+## Example: Fetch Sustainability Dashboard
+```bash
+curl -H "Authorization: Bearer <token>" \
+  https://api.novaeco.tech/dashboard
+```
+
+## Example: Submit DPP
+```bash
+curl -X POST https://api.novaeco.tech/dpp \
+  -H "Authorization: Bearer <token>" \
+  -d '{"productId":"123","material":"steel"}'
+```
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/api/auth.md
+================================================================================
+
+# Auth API
+
+The Auth service (`/auth`) provides identity and access management.
+
+## Endpoints
+- `POST /signup` — Register a new user.
+- `POST /login` — Authenticate and receive a token.
+- `GET /profile` — Retrieve user profile.
+- `POST /refresh` — Refresh access tokens.
+
+## Notes
+- Uses OAuth2 flows.
+- Tokens must be included in the `Authorization` header.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/api/gateway.md
+================================================================================
+
+# Gateway API
+
+The Gateway service (`/api`) is the single entry point for ecosystem data.
+
+## Endpoints
+- `GET /health` — Health check.
+- `GET /projects` — List projects in NovaEco.
+- `POST /projects` — Create a new project.
+- `GET /lca` — Retrieve LCA data.
+- `POST /dpp` — Submit Digital Product Passport data.
+
+## Notes
+- All requests require authentication via Auth service.
+- Responses are JSON with standardized error codes.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/api/testing.md
+================================================================================
+
+# API Testing
+
+## Unit Tests
+- Each service has its own test suite (`pytest` for Python, `npm test` for Node.js).
+
+## Integration Tests
+- Run with `pytest tests/integration`.
+- Validate cross-service flows (Auth + Gateway).
+
+## CI/CD
+- GitHub Actions run tests automatically on pull requests.
+- Containers ensure consistent environments.
+
+## Best Practices
+- Always test with mock data before production.
+- Use Postman or curl for manual validation.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/requirements/functional.md
+================================================================================
+
+# Functional Requirements
+
+The NovaEco must deliver clear, user‑facing functionality across enablers, sectors, workers, and products.
+
+## Core Functions
+- **User Onboarding:** Registration, identity management, consent handling.
+- **API Integration:** Secure API keys, developer portal, service discovery.
+- **Dashboards:** Sustainability metrics, compliance status, impact visualization.
+- **Marketplace:** Discover and connect to sector apps and workers.
+- **Governance:** Proposal submission, voting, and audit trails.
+
+## Ecosystem Functions
+- **Cross‑sector data aggregation:** Harmonized DPP and LCA ingestion.
+- **Urban mining coordination:** Project orchestration across multiple sectors.
+- **Multi‑tenant access:** Role‑based access control for organizations.
+
+---
+
+## Related Pages
+- [Non-Functional Requirements](./non-functional.md)
+- [Sustainability Requirements](./sustainability.md)
+- [Architecture Overview](../architecture/overview.md)
+- [Use Cases: Level 1 Onboarding](../usecases/level-1-onboarding.md)
+
+[⬅️ Back to Intro](../intro.md)
+
+[⬅️ Previous: Architecture Overview](../architecture/overview.md)
+[Next: Use Cases (Level 1 Onboarding) ➡️](../usecases/level-1-onboarding.md)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/requirements/sustainability.md
+================================================================================
+
+# Sustainability Requirements
+
+The NovaEco embeds circular economy principles into its technical and governance design.
+
+## Environmental
+- Support for Digital Product Passports (DPP).
+- Automated Life Cycle Assessment (LCA) calculations.
+- Integration with renewable energy and carbon trading.
+
+## Social
+- Fair wage auditing via NovaEquity.
+- Inclusive onboarding for displaced experts.
+- Transparent governance participation.
+
+## Economic
+- Product‑as‑a‑Service models.
+- Circular marketplaces for reuse and refurbishment.
+- Financing mechanisms aligned with ESG standards.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/requirements/non-functional.md
+================================================================================
+
+# Non-Functional Requirements
+
+The NovaEco must meet performance, scalability, and compliance standards.
+
+## Performance
+- Low latency API responses (&lt;200ms for core endpoints).
+- Real‑time dashboard updates.
+
+## Scalability
+- Horizontal scaling of services via containers.
+- Support for thousands of concurrent contributors.
+
+## Security
+- OAuth2 identity flows.
+- GDPR compliance for data handling.
+- End‑to‑end encryption for sensitive data.
+
+## Reliability
+- 99.9% uptime target for core services.
+- Automated failover and monitoring.
+
+## Transparency
+- Architecture Decision Records (ADRs).
+- Public documentation of governance and workflows.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/developers/contribution.md
+================================================================================
+
+# Contribution Guide
+
+## Code of Conduct
+All contributors must follow the [Code of Conduct](https://github.com/novaeco-tech/.github/blob/main/CODE_OF_CONDUCT.md).
+
+## How to Contribute
+1. Fork the repository.
+2. Create a feature branch.
+3. Make changes and commit with clear messages.
+4. Open a Pull Request.
+
+## Issue Reporting
+Use GitHub Issues with templates for bug reports and feature requests.
+
+## Review Process
+- Automated CI checks must pass.
+- Maintainers review and approve.
+- Merge strategy: squash commits for clarity.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/developers/quickstart.md
+================================================================================
+
+# Quickstart
+
+This guide helps new contributors get started with the NovaEco Core quickly.
+
+---
+
+## Prerequisites
+- Docker Desktop
+- VS Code with Remote Containers extension
+- Git installed
+
+---
+
+## Steps
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/novaeco-tech/ecosystem-core.git
+   ```
+2. Open the folder in VS Code.
+3. Reopen in Container when prompted.
+4. Run services locally:
+   - App: http://localhost:5000
+   - Website: http://localhost:3000
+   - API Gateway: http://localhost:8000/health
+   - Auth: http://localhost:9000/health
+
+---
+
+## First API Call
+```bash
+curl -X GET http://localhost:8000/health
+```
+
+---
+
+## Next Steps
+- Explore [Architecture Overview](../architecture/overview.md).
+- Review [Functional Requirements](../requirements/functional.md).
+- Try [API Examples](../api/examples.md).
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/developers/setup.md
+================================================================================
+
+# Developer Setup
+
+## Local Development
+The NovaEco Core uses **DevContainers** for one‑click setup.
+
+1. Install Docker Desktop.
+2. Install the VS Code Remote Containers extension.
+3. Clone the repository:  
+   ```bash
+   git clone https://github.com/novaeco-tech/ecosystem-core.git
+   ```
+4. Open the folder in VS Code.
+5. Reopen in Container when prompted.
+
+## Services
+- App: http://localhost:5000
+- Website: http://localhost:3000
+- API Gateway: http://localhost:8000/health
+- Auth: http://localhost:9000/health
+
+---
+
+## Related Pages
+- [NovaEco CLI](./cli.md)
+- [Workflows](./workflows.md)
+- [Contribution Guide](./contribution.md)
+- [API Overview](../api/overview.md)
+
+[⬅️ Back to Intro](../intro.md)
+
+[⬅️ Previous: API Overview](../api/overview.md)  
+[Next: Developer Guide ](../guides/dev-guide.md)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/developers/workflows.md
+================================================================================
+
+# CI/CD Workflows
+
+NovaEco uses a sophisticated **System-of-Systems** pipeline that separates testing (CI) from release orchestration (CD).
+
+---
+
+## 1. Continuous Integration (CI)
+
+**File:** `.github/workflows/ci.yml`
+
+This workflow is the "Gatekeeper" for code quality. It runs on every Pull Request and every commit to `main`.
+
+* **Scope:** Runs **Intra-repo** unit and integration tests.
+* **Efficiency:** It uses path filtering to only test the services that changed (e.g., modifying `/website` won't trigger `/api` tests).
+* **Artifacts:** **None.** This workflow never publishes artifacts or releases.
+* **Environment:** Tests run inside standard Docker containers (`ghcr.io/novaeco-tech/dev-python`) to match the local DevContainer environment.
+
+---
+
+## 2. Continuous Deployment (CD)
+
+**Files:** `.github/workflows/publish-[service].yml` (e.g., `publish-api.yml`)
+
+These workflows handle the creation of stable artifacts. They implement an **Idempotent Release Strategy**.
+
+### The Logic Flow
+1.  **Trigger:** Runs on every push to `main` that affects a service folder.
+2.  **Version Check:** It reads the local `VERSION` file (or `package.json`).
+    * **If Tag Exists:** The workflow stops (idempotent).
+    * **If New Version:** It proceeds to release.
+3.  **Defensive Testing:** Runs the unit tests *one last time* to ensure we never release a broken artifact.
+4.  **Build:** Creates a source tarball with a **Fully Qualified Name** (without version suffix).
+    * *Format:* `[repo]-[service].tar.gz`
+    * *Example:* `ecosystem-core-api.tar.gz`
+5.  **Release:** Automatically creates the Git Tag (e.g., `ecosystem-core-api-v1.2.1`) and GitHub Release.
+
+---
+
+## 3. The QA Signal (System-of-Systems)
+
+This is the bridge between the Open Source repositories and the Ecosystem QA.
+
+* **Trigger:** Successfully publishing an artifact triggers the **Signal** step in the publish workflow.
+* **Mechanism:** A **GitHub App** generates a short-lived token to dispatch a `qa-run` event to the `ecosystem-qa` repository.
+* **Payload:** The signal contains the exact version tag and artifact name.
+* **Result:** `ecosystem-qa` spins up a dynamic test environment combining this new artifact with stable versions of other sectors to run **Inter-repo** integration tests.
+
+---
+
+## Summary of Lifecycle
+
+| Action | Workflow | Result |
+| :--- | :--- | :--- |
+| **Open PR** | `ci.yml` | Tests run. Branch protection turns green. |
+| **Merge PR** (No version change) | `ci.yml` + `publish-*.yml` | Tests run. Publish workflow skips (Tag exists). |
+| **Merge PR** (Bump `api/VERSION`) | `publish-api.yml` | Tests run. **New Tag & Release created.** Signal sent to QA. |
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/developers/cli.md
+================================================================================
+
+# NovaEco CLI
+
+The NovaEco CLI manages versions and automation.
+
+## Installation
+Installed automatically in DevContainers. Manual install:
+```bash
+pip install "git+https://github.com/novaeco-tech/ecosystem-devtools.git@main#subdirectory=novaeco-cli"
+```
+
+## Usage
+- **Patch a Service:**  
+  ```bash
+  novaeco version patch auth
+  ```
+- **Release a Feature:**  
+  ```bash
+  novaeco version release minor
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/changelog.md
+================================================================================
+
+# Changelog
+
+This page summarizes major updates to the NovaEco documentation and core services.
+
+---
+
+## November 2025
+- Initial documentation structure implemented (Architecture, Requirements, Use Cases, API, Developers, Guides, Glossary).
+- Added cross-links and linear navigation (Previous/Next).
+- Introduced Intro landing page.
+
+## October 2025
+- ADRs created for Core Services, Auth, API Gateway, and Docs Site.
+- Requirements section drafted (functional, non-functional, sustainability).
+
+## September 2025
+- Use Case taxonomy finalized (Levels 1–4).
+- API reference drafted (Auth, Gateway, Examples, Testing).
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-003-api-gateway.md
+================================================================================
+
+# ADR-003: API Gateway
+
+## Context
+The ecosystem requires a single "front door" for all data and service requests.
+
+## Decision
+Use a Python/Flask API Gateway (`/api`) to route requests to services.
+
+## Consequences
+- Simplified client integration.
+- Centralized logging and monitoring.
+- Easier enforcement of rate limits and policies.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-template.md
+================================================================================
+
+# ADR-XXX: Title of Decision
+
+Date: YYYY-MM-DD  
+Status: Proposed | Accepted | Deprecated | Superseded
+
+---
+
+## Context
+Describe the background and problem statement.  
+- What situation led to this decision?  
+- What requirements or constraints are relevant?  
+- What alternatives were considered?
+
+## Decision
+State the decision clearly.  
+- What is being chosen?  
+- Why is this the preferred option?  
+- Include diagrams or references if helpful.
+
+## Consequences
+Explain the impact of this decision.  
+- Positive outcomes (benefits, improvements).  
+- Negative outcomes (trade-offs, risks).  
+- How will this affect contributors, users, or governance?
+
+---
+
+## References
+- Link to related ADRs (e.g., ADR-001 Core Services).  
+- Link to relevant Use Cases or Requirements.  
+- External standards or specifications if applicable.
+
+---
+
+[⬅️ Back to Architecture Overview](./overview.md)  
+[⬅️ Back to Intro](../intro.md)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/overview.md
+================================================================================
+
+# Architecture Overview
+
+The **NovaEco** is an open‑source operating system for the circular economy.  
+It is designed as a **system‑of‑systems**: interconnected **Horizontal Enablers**, **Vertical Sectors**, **Workers**, and **Products** that together enable sustainable collaboration, compliance, and innovation.
+
+---
+
+## 🌐 Core Services (ecosystem-core)
+
+At the heart of the ecosystem is the `ecosystem-core` monorepo, which contains the tightly‑coupled central services:
+
+| Service     | Path       | Type            | Port | Public URL | Docs Reference |
+|-------------|------------|-----------------|------|------------|----------------|
+| **App**       | `/app`   | Python/Flask    | 5000 | [app.novaeco.tech](https://app.novaeco.tech) | [Use Cases L1](../usecases/level-1-onboarding.md) |
+| **Identity**  | `/auth`  | Python/Flask    | 9000 | [auth.novaeco.tech](https://auth.novaeco.tech) | [API Auth](../api/auth.md) |
+| **Gateway**   | `/api`   | Python/Flask    | 8000 | [api.novaeco.tech](https://api.novaeco.tech) | [API Gateway](../api/gateway.md) |
+| **Website**   | `/website` | Node.js/Docusaurus | 3000 | [novaeco.tech](https://novaeco.tech) | [Intro](../intro.md) |
+
+These services provide the foundation for onboarding, governance, API integration, and contributor visibility.
+
+---
+
+## 🧩 Horizontal Enablers
+
+Cross‑cutting foundational services:
+
+- **NovaHub** – innovation wizard, complex problem decomposition, orchestration.
+- **NovaFin** – tokens, staking, payments, revenue sharing, investment.  
+- **NovaTrade** – decentralized marketplace for goods, services, and assets.  
+- **NovaSapien** – shared artificial intelligence and ML models.  
+- **NovaEnergy** – renewable energy production, distribution, and auditing.  
+- **NovaMaterial** – Digital Product Passports (DPPs), lifecycle tracking of raw/recycled materials.  
+- **NovaMobility** – circular logistics and sustainable transport coordination.  
+- **NovaInfra** – shared digital/physical infrastructure.  
+- **NovaSkills** – education, skill‑sharing, labor coordination.  
+- **NovaPolicy** – governance, compliance, legal frameworks.  
+- **NovaBalance** – environmental auditing, proof of ecological impact.  
+- **NovaEquity** – social auditing, proof of fairness and social impact.
+
+---
+
+## 🏭 Vertical Sectors
+
+Industry‑specific applications that consume enabler services:
+
+- **NovaAgro** – sustainable agriculture, bio‑nutrients, post‑harvest processing.
+- **NovaWater** – water resource management, sustainable use, ecosystem restoration.
+- **NovaBuild** – sustainable construction, circular building materials, built environment.  
+- **NovaTextile** – lifecycle of textiles, sustainable sourcing, recycling, reuse.  
+- **NovaWaste** – waste‑to‑value streams, recycling, circular waste management.  
+- **NovaAir** – air quality monitoring, environmental credits.  
+- **NovaHealth** – circular economy principles in healthcare and life sciences. 
+- **NovaPack** – reusable and circular packaging systems, deposit models, reverse logistics, inventory management.
+- **NovaTronix** – sustainable electronics and e‑waste management, modular design, repair, recycling, and material recovery.
+- **NovaChem** – sustainable chemical processes, leasing models, and closed‑loop industrial chemistry.
+
+---
+
+## ⚙️ Workers
+
+Decoupled, single‑purpose backend services (e.g., `novahub-worker-sync`, `novabalance-worker-impact-calculator`).  
+They handle background jobs such as:
+
+- Data ingestion and normalization  
+- Automated LCA calculations  
+- Compliance checks  
+- Logistics optimization  
+
+Workers are independent for scalability and fault isolation.
+
+---
+
+## 📦 Products
+
+Flagship applications that consume multiple enablers and sectors:
+
+- **DurasAGV** – autonomous logistics robots integrating AI and Agro.  
+- **Urban Mining Coordination** – orchestration app combining Build, Waste, and Mobility.  
+- **Reusable Packaging Systems** – products integrating Pack, Mobility, and Water.  
+- **City‑Wide Loop** – unified reusable cup system across entire cities.  
+- **Circular Hospital** – healthcare equipment leasing and reuse models.
+
+---
+
+## 👥 Main Actors
+
+- **Contributors** – register via Identity, propose governance changes, build apps.  
+- **Organizations** – manage teams, roles, and compliance dashboards.  
+- **Developers** – generate API keys, integrate external systems, build sector apps.  
+- **Regulators/Auditors** – use compliance dashboards, validate ESG and policy adherence.  
+- **Citizens/End‑Users** – interact with apps (marketplace, dashboards, mobility services).  
+
+---
+
+## 🛠️ Technical Standards
+
+To ensure scalability and decoupling, the ecosystem adheres to strict communication and interface standards:
+
+### Communication Protocols
+- **External (Public):** **REST/JSON** via the API Gateway. All 3rd-party apps and frontend clients consume this.
+- **Internal (Pillar-to-Pillar):** **gRPC/ProtoBuf**. Used for high-performance, type-safe communication between Enablers and Sectors (e.g., NovaAgro API calling NovaFin API).
+- **Asynchronous:** **RabbitMQ/NATS**. Used for Pillar-to-Worker tasks (e.g., triggering an LCA calculation).
+
+### User Interface Strategy
+- **Federated UIs:** Instead of a single monolithic frontend, each Pillar (NovaAgro, NovaHealth, NovaFin) hosts its own dedicated "micro-frontend" or standalone web app.
+- **Unified Identity:** A seamless SSO (Single Sign-On) session persists across all domain boundaries (`*.novaeco.tech`).
+
+---
+
+## 🔄 Interaction Flow
+
+1. **Onboarding**: Identity service creates Trust Profiles.  
+2. **Integration**: Gateway issues API keys for external systems.  
+3. **Transactions**: NovaTrade + NovaFin enable secure exchanges.  
+4. **Data Aggregation**: NovaBalance + NovaMaterial + Sector workers provide sustainability metrics.  
+5. **Governance**: NovaPolicy enforces rules; NovaEquity ensures fairness.  
+6. **Visibility**: Dashboard aggregates results; Docs provide transparency.
+
+---
+
+## 📊 Diagram (Mermaid)
+
+```mermaid
+graph TD
+  User --> Identity
+  Identity --> Gateway
+  Gateway --> Dashboard
+  Docs --> User
+  Dashboard --> Docs
+  Gateway --> Enablers[NovaHub / NovaFin / NovaTrade / NovaSapien / NovaEnergy / NovaMaterial / NovaMobility / NovaInfra / NovaSkills / NovaPolicy / NovaBalance / NovaEquity]
+  Enablers --> Sectors[NovaAgro / NovaWater / NovaBuild / NovaTextile / NovaWaste / NovaAir / NovaHealth / NovaChem / NovaTronix / NovaPack]
+  Sectors --> Workers[Background Jobs / Calculators / Sync Services]
+  Workers --> Products[Flagship Apps: DurasAGV / Urban Mining / Reusable Packaging / City-Wide Loop / Circular Hospital]
+```
+
+---
+
+## 🌱 Principles
+
+- **Open Source** – all repos are public, community‑driven.  
+- **Transparency** – ADRs, Use Cases, Guides, and Glossary ensure clarity.  
+- **Scalability** – monorepo model with containerized services.  
+- **Auditability** – NovaBalance and NovaEquity enablers provide verifiable impact.  
+- **Circularity** – every sector and product reinforces sustainable loops.
+
+---
+
+## 🔗 Related Pages
+
+- [Intro](../intro.md)  
+- [Functional Requirements](../requirements/functional.md)  
+- [Non‑Functional Requirements](../requirements/non-functional.md)  
+- [API Overview](../api/overview.md)  
+- [Use Cases Overview](../usecases/level-1-onboarding.md)  
+- [Glossary](../glossary.md)
+
+---
+
+[⬅️ Back to Intro](../intro.md)  
+[➡️ Next: Requirements](../requirements/functional.md)
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-001-core-services.md
+================================================================================
+
+# ADR-001: Core Services Monorepo
+
+## Context
+The NovaEco requires a unified repository to manage its four central services.
+
+## Decision
+We use a monorepo (`ecosystem-core`) with DevContainers to simplify local development and ensure consistent environments.
+
+## Consequences
+- Easier onboarding for contributors.
+- Shared CI/CD workflows.
+- Clear separation of services while maintaining a single source of truth.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-006-federated-ui.md
+================================================================================
+
+# ADR-006: Federated User Interfaces
+
+Date: 2025-11-26
+Status: Accepted
+
+## Context
+The ecosystem covers diverse domains (Health, Agriculture, Finance, Construction). A single "Monolithic" Frontend trying to serve all these personas would become bloated, hard to maintain, and confusing for users.
+
+## Decision
+We will adopt a **Federated UI** strategy. Each Pillar (e.g., `novaagro`, `novafin`) will develop and host its own lightweight frontend application tailored to its specific user persona.
+These apps will be stitched together via a shared **Identity/SSO** session.
+
+## Consequences
+### Positive
+- **Decoupling:** The `Agro` team can update their UI without breaking `Health`.
+- **Performance:** Users only load the JavaScript/Assets relevant to their current context.
+- **Simplicity:** Interfaces remain focused on specific domain tasks.
+
+### Negative
+- **Consistency Risk:** Requires a strong Design System to ensure apps look like they belong to the same family.
+- **Navigation Friction:** Moving between apps requires handling cross-domain navigation and auth persistence.
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-005-internal-grpc.md
+================================================================================
+
+# ADR-005: gRPC/ProtoBuf for Internal Communication
+
+Date: 2025-11-26
+Status: Accepted
+
+## Context
+The NovaEco is a distributed system of systems. Relying solely on JSON for internal service-to-service communication risks loose typing, parsing errors, and higher latency as the ecosystem grows.
+
+## Decision
+We will use **gRPC with Protocol Buffers (ProtoBuf)** for synchronous internal communication between Pillars (Enablers and Sectors).
+External clients will still interface via a REST/JSON API Gateway (see ADR-003).
+
+## Consequences
+### Positive
+- **Strict Contracts:** ProtoBuf enforces schema compatibility between services.
+- **Performance:** Binary serialization is faster and lighter than JSON.
+- **Code Generation:** Client libraries can be auto-generated for Python, Node, and Go.
+
+### Negative
+- **Debuggability:** Binary data is harder to inspect (curl) than JSON.
+- **Tooling:** Requires `grpcurl` or specific tools for ad-hoc testing.
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-004-docs-site.md
+================================================================================
+
+# ADR-004: Documentation Site
+
+## Context
+Public documentation must be accessible, versioned, and contributor-friendly.
+
+## Decision
+Use Docusaurus (`/website`) for the documentation site, integrated into the monorepo.
+
+## Consequences
+- Easy contributor onboarding.
+- Versioned docs aligned with releases.
+- Consistent branding and navigation.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docs/architecture/adr-002-auth.md
+================================================================================
+
+# ADR-002: Identity & Authentication
+
+## Context
+Single Sign-On (SSO) and OAuth2 are required for unified contributor and user identity.
+
+## Decision
+Implement a dedicated Auth service (`/auth`) using Python/Flask with OAuth2 flows.
+
+## Consequences
+- Centralized identity management.
+- Simplified contributor onboarding.
+- Compliance with GDPR and security standards.
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/blog/2025-11-25-architecture-deep-dive.md
+================================================================================
+
+---
+slug: architecture-deep-dive
+title: NovaEco Architecture — System of Systems
+authors:
+  - name: Claudiu Câmpeanu
+    title: Founder, Circular Engineering Nova GmbH
+    url: https://circular.engineering
+    image_url: https://circular.engineering/wp-content/uploads/2025/09/team_member_claudiu-150x150.jpg
+tags: [architecture, novaeco, enablers, sectors]
+---
+
+# NovaEco Architecture — System of Systems 🏗️
+
+NovaEco is designed as a **system‑of‑systems**: interconnected **Horizontal Enablers**, **Vertical Sectors**, **Workers**, and **Products** that together enable sustainable collaboration, compliance, and innovation.
+
+---
+
+## Core Services
+
+- **App** → [app.novaeco.tech](https://app.novaeco.tech)  
+- **Gateway** → [api.novaeco.tech](https://api.novaeco.tech)  
+- **Identity** → [auth.novaeco.tech](https://auth.novaeco.tech)  
+- **Docs** → [novaeco.tech/docs](https://novaeco.tech/docs)
+
+---
+
+## Horizontal Enablers
+
+Cross‑cutting foundational services:
+- NovaHub (innovation, wizard, orchestrator)  
+- NovaFin (tokens, payments, investment)  
+- NovaTrade (marketplace)  
+- NovaSapien (shared ML models)  
+- NovaEnergy (renewables, auditing)  
+- NovaMaterial (digital product passports)  
+- NovaMobility (logistics, transport)  
+- NovaInfra (shared infra)  
+- NovaSkills (education, labor coordination)  
+- NovaPolicy (governance, compliance)  
+- NovaBalance (environmental auditing)  
+- NovaEquity (social auditing)
+
+---
+
+## Vertical Sectors
+
+Industry‑specific applications:
+- NovaAgro (sustainable agriculture)  
+- NovaWater (water resource management)  
+- NovaBuild (construction, materials)  
+- NovaTextile (textiles lifecycle)  
+- NovaWaste (waste‑to‑value)  
+- NovaAir (air quality monitoring)  
+- NovaHealth (circular healthcare)  
+- NovaPack (circular packaging)
+- NovaTronix (sustainable electronics)
+- NovaChem (sustainable chemical processes)
+
+---
+
+## Workers
+
+Independent background services for:
+- Data ingestion  
+- LCA calculations  
+- Compliance checks  
+- Logistics optimization
+
+---
+
+## Products
+
+Flagship applications that consume multiple enablers/sectors:
+- **DurasAGV** (autonomous logistics robots)  
+- **City‑Wide Loop** (reusable cup system)  
+- **Circular Hospital** (equipment leasing and reuse)  
+- **Urban Mining Coordination** (construction + waste + mobility)
+
+---
+
+## Principles
+
+- **Open Source** — community‑driven repos  
+- **Transparency** — ADRs, use cases, glossary  
+- **Scalability** — monorepo + containers  
+- **Auditability** — Balance & Equity enablers  
+- **Circularity** — every sector reinforces sustainable loops
+
+---
+
+For diagrams and flows, see the [Architecture Overview](/docs/architecture/overview).
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/blog/2025-11-25-welcome.md
+================================================================================
+
+---
+slug: welcome
+title: Welcome to NovaEco
+authors:
+  - name: Claudiu Câmpeanu
+    title: Founder, Circular Engineering Nova GmbH
+    url: https://circular.engineering
+    image_url: https://circular.engineering/wp-content/uploads/2025/09/team_member_claudiu-150x150.jpg
+tags: [introduction, novaeco, circular-economy]
+---
+
+# Welcome to NovaEco 🌱
+
+We are excited to launch the **NovaEco** documentation and blog at [novaeco.tech](https://novaeco.tech).
+
+NovaEco is the **open‑source operating system for the circular economy**.  
+Our mission is to connect **horizontal enablers** (NovaFin, NovaPolicy, NovaHub, NovaBalance, NovaEquity) with **vertical sectors** (NovaAgro, NovaWaste, NovaBuild, NovaTextile, NovaHealth, NovaEnergy, NovaWater, NovaAir) to create a transparent, auditable, and collaborative ecosystem.
+
+---
+
+## What you’ll find here
+
+- **Architecture**: How NovaEco is structured — enablers, sectors, workers, products.  
+- **Use Cases**: Real‑world scenarios across four levels (Onboarding, Easy, Medium, Complex).  
+- **Guides**: Contributor onboarding, API integration, governance participation.  
+- **Blog**: Updates, releases, and stories from the community.
+
+---
+
+## Why NovaEco?
+
+Circularity requires **systemic collaboration**. NovaEco provides:
+
+- **Trust Profiles** for contributors and organizations.  
+- **APIs** to connect external systems.  
+- **Dashboards** for sustainability metrics.  
+- **Governance modules** for transparent decision‑making.  
+- **Workers** for automated LCA, compliance, and logistics.  
+
+---
+
+## Get Involved
+
+- Try the app: [app.novaeco.tech](https://app.novaeco.tech)  
+- Explore the docs: [novaeco.tech/docs](https://novaeco.tech/docs)  
+- Contact us: [contact@novaeco.tech](mailto:contact@novaeco.tech)
+
+This is just the beginning. Stay tuned for more posts on releases, sector deep‑dives, and contributor stories. 🚀
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/sidebars.js
+================================================================================
+
+// website/sidebars.js
+module.exports = {
+    tutorialSidebar: [
+        'intro',
+        {
+            type: 'category',
+            label: 'Architecture',
+            items: [
+                'architecture/overview',
+                'architecture/adr-001-core-services',
+                'architecture/adr-002-auth',
+                'architecture/adr-003-api-gateway',
+                'architecture/adr-004-docs-site',
+                'architecture/adr-005-internal-grpc',
+                'architecture/adr-006-federated-ui',
+                'architecture/adr-template',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Requirements',
+            items: [
+                'requirements/functional',
+                'requirements/non-functional',
+                'requirements/sustainability',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Use Cases',
+            items: [
+                'usecases/level-1-onboarding',
+                'usecases/level-2-easy',
+                'usecases/level-3-medium',
+                'usecases/level-4-complex',
+                'usecases/usecase-template',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'API',
+            items: [
+                'api/overview',
+                'api/auth',
+                'api/gateway',
+                'api/examples',
+                'api/testing',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Developers',
+            items: [
+                'developers/quickstart',
+                'developers/setup',
+                'developers/cli',
+                'developers/workflows',
+                'developers/contribution',
+            ],
+        },
+        {
+            type: 'category',
+            label: 'Guides',
+            items: [
+                'guides/dev-guide',
+                'guides/best-practices',
+                'guides/testing-guide',
+                'guides/sustainability-guide',
+                'guides/style-guide',
+                'guides/guide-template',
+            ],
+        },
+        'faq',
+        'changelog',
+        'glossary'
+    ],
+};
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/docusaurus.config.js
+================================================================================
+
+const lightCodeTheme = require('prism-react-renderer').themes.github;
+const darkCodeTheme = require('prism-react-renderer').themes.dracula;
+const fs = require('fs');
+const path = require('path');
+
+// --- DYNAMIC VERSION LOGIC ---
+// Priority 1: Environment Variable (Used in CI/CD for CalVer releases)
+// Priority 2: GLOBAL_VERSION file (Used for local dev / component version)
+// Priority 3: package.json (Fallback)
+let currentVersion = process.env.NOVA_VERSION;
+
+if (!currentVersion) {
+    try {
+        const globalVersionPath = path.resolve(__dirname, '../GLOBAL_VERSION');
+        if (fs.existsSync(globalVersionPath)) {
+            currentVersion = fs.readFileSync(globalVersionPath, 'utf8').trim();
+        } else {
+            currentVersion = require('./package.json').version;
+        }
+    } catch (err) {
+        currentVersion = 'Dev';
+    }
+}
+
+/** @type {import('@docusaurus/types').Config} */
+const config = {
+    title: 'NovaEco',
+    tagline: 'The Operating System for a Circular Economy',
+    url: 'https://novaeco.tech',
+    baseUrl: '/',
+    onBrokenLinks: 'throw',
+    favicon: 'img/favicon.ico',
+    organizationName: 'novaeco-tech',
+    projectName: 'ecosystem-core',
+
+    i18n: { defaultLocale: 'en', locales: ['en'] },
+
+    markdown: {
+        hooks: {
+            onBrokenMarkdownLinks: 'warn',
+        },
+    },
+
+    presets: [
+        [
+            'classic',
+            {
+                docs: {
+                    sidebarPath: require.resolve('./sidebars.js'),
+                    editUrl: 'https://github.com/novaeco-tech/ecosystem-core/tree/main/website/',
+                },
+                blog: {
+                    showReadingTime: true,
+                    onInlineAuthors: 'ignore',
+                },
+                theme: {
+                    customCss: require.resolve('./src/css/custom.css'),
+                },
+            },
+        ],
+    ],
+
+    themeConfig: {
+        navbar: {
+            title: 'NovaEco',
+            items: [
+                { to: '/docs/intro', label: 'Docs', position: 'left' },
+                { to: '/blog', label: 'Blog', position: 'left' },
+                { href: 'https://app.novaeco.tech', label: 'Launch App', position: 'right' },
+            ],
+        },
+        footer: {
+            style: 'dark',
+            links: [
+                {
+                    title: 'Community',
+                    items: [
+                        {
+                            label: 'GitHub',
+                            href: 'https://github.com/novaeco-tech',
+                        },
+                        {
+                            label: 'Discussions',
+                            href: 'https://github.com/orgs/novaeco-tech/discussions',
+                        },
+                    ],
+                },
+                {
+                    title: 'Legal',
+                    items: [
+                        {
+                            label: 'Imprint',
+                            href: 'https://circular.engineering',
+                        },
+                    ],
+                },
+            ],
+            // Displays: "System Version: v2025.11.01" in Prod, or "v0.1.0" in Dev
+            copyright: `Copyright © ${new Date().getFullYear()} Circular Engineering Nova GmbH. <br/> <span style="font-size: 0.8em; opacity: 0.6;">System Version: ${currentVersion}</span>`,
+        },
+        prism: { theme: lightCodeTheme, darkTheme: darkCodeTheme },
+    },
+};
+
+module.exports = config;
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/package.json
+================================================================================
+
+{
+    "name": "ecosystem-website",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "docusaurus": "docusaurus",
+        "start": "docusaurus start --port 3000 --host 0.0.0.0",
+        "build": "docusaurus build",
+        "swizzle": "docusaurus swizzle",
+        "deploy": "docusaurus deploy",
+        "clear": "docusaurus clear",
+        "serve": "docusaurus serve",
+        "write-translations": "docusaurus write-translations",
+        "write-heading-ids": "docusaurus write-heading-ids",
+        "test": "jest --passWithNoTests"
+    },
+    "dependencies": {
+        "@docusaurus/core": "3.9.2",
+        "@docusaurus/preset-classic": "3.9.2",
+        "@mdx-js/react": "^3.0.0",
+        "clsx": "^2.0.0",
+        "prism-react-renderer": "^2.3.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0"
+    },
+    "browserslist": {
+        "production": [
+            ">0.5%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
+}
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/src/pages/index.module.css
+================================================================================
+
+/* style for the hero banner */
+.heroBanner {
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/src/pages/index.js
+================================================================================
+
+import React from 'react';
+import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
+
+export default function Home() {
+    return (
+        <Layout
+            title="NovaEco"
+            description="Open-source Digital Public Infrastructure for the circular economy"
+        >
+            <main>
+
+                {/* Hero Section (Executive Summary) */}
+                <section
+                    style={{
+                        padding: '4rem 4rem',
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #0f2027, #203a43, #2c5364)',
+                        color: 'white'
+                    }}
+                >
+                    <h1>🌍 NovaEco</h1>
+                    <p style={{ maxWidth: 960, margin: '0 auto', fontSize: '1.0rem', lineHeight: '1.8' }}>
+                        <strong>NovaEco</strong> is the open‑source <strong>Digital Public Infrastructure</strong> for the circular economy.
+                        It connects individuals and siloed sectors to <strong>foster innovation</strong>, measure impact, and <strong>collaborate</strong> within a federated system-of-systems.
+                    </p>
+                    <div style={{ marginTop: '2rem' }}>
+                        <Link className="button button--primary" to="/docs/intro">
+                            Get Started
+                        </Link>
+                        <Link
+                            className="button button--secondary"
+                            to="https://app.novaeco.tech"
+                            style={{ marginLeft: '0.75rem' }}
+                        >
+                            Launch App
+                        </Link>
+                    </div>
+                </section>
+
+
+                {/* Four-column Ecosystem Table */}
+                <section style={{ padding: '2rem 4rem' }}>
+                    <h2>🔎 Ecosystem overview</h2>
+                    <p>
+                        The ecosystem is anchored by <strong>four core services</strong> that provide unified identity, orchestration, and access management:
+                    </p>
+                    <ul>
+                        <li><strong><a href="https://app.novaeco.tech">App</a></strong> — Mission Control for onboarding, discovery, and ecosystem management.</li>
+                        <li><strong><a href="https://auth.novaeco.tech">Identity</a></strong> — Digital Passport & Trust Profile for unified login.</li>
+                        <li><strong><a href="https://api.novaeco.tech">Gateway</a></strong> — API gateway for secure, managed access to all services.</li>
+                        <li><strong><Link to="/docs/intro">Docs</Link></strong> — Comprehensive documentation hub for architecture, use cases, and developer guides.</li>
+                    </ul>
+                    <p>
+                        It is designed as a <strong>System‑of‑Systems</strong>: interconnected <strong>Horizontal Enablers</strong> (services), <strong>Vertical Sectors</strong> (application industries), <strong>Workers</strong> (microservices), and <strong>Products</strong> (hardware/software innovations) that together enable sustainable collaboration, compliance, and innovation.
+                    </p>
+
+                    <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+                            <thead>
+                                <tr>
+                                    <th style={{ padding: '0.5rem', borderBottom: '1px solid #ccc' }}>Enablers</th>
+                                    <th style={{ padding: '0.5rem', borderBottom: '1px solid #ccc' }}>Sectors</th>
+                                    <th style={{ padding: '0.5rem', borderBottom: '1px solid #ccc' }}>Representative workers</th>
+                                    <th style={{ padding: '0.5rem', borderBottom: '1px solid #ccc' }}>Representative products</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td title="Innovation Wizard: decomposes complex problems into atomic ecosystem tasks"><a href="https://novahub.network">NovaHub — innovation wizard</a></td>
+                                    <td title="Regenerative agriculture and food systems"><a href="https://novaagro.tech">NovaAgro — farming & food</a></td>
+                                    <td title="Syncs EU databases and ERPs to keep Digital Product Passports current">NovaMaterial — DPP sync</td>
+                                    <td title="Autonomous electric robot for regenerative farming tasks">DurasAGV — agricultural robot</td>
+                                </tr>
+                                <tr>
+                                    <td title="Fintech hub for green bonds, ESG-linked finance"><a href="https://novafin.finance">NovaFin — capital engine</a></td>
+                                    <td title="Water purification, desalination, smart grids"><a href="https://novawater.tech">NovaWater — water systems</a></td>
+                                    <td title="Automated LCA calculations triggered by transactions">NovaBalance — LCA engine</td>
+                                    <td title="Smart reusable packaging with tracker and e-ink label">NovaBox — reusable packaging</td>
+                                </tr>
+                                <tr>
+                                    <td title="Exchange for materials and environmental assets"><a href="https://novatrade.markets">NovaTrade — trading backbone</a></td>
+                                    <td title="Circular construction & buildings-as-material-banks"><a href="https://novabuild.tech">NovaBuild — construction</a></td>
+                                    <td title="Finds waste-to-resource symbiosis matches">NovaHub — symbiosis matcher</td>
+                                    <td title="Retrofit robotic arm with vision for AI sorting">SortBotX1 — sorting robot</td>
+                                </tr>
+                                <tr>
+                                    <td title="AI, robotics, IoT, digital twins"><a href="https://novasapien.ai">NovaSapien — intelligence & robotics</a></td>
+                                    <td title="Circular fashion & textile recycling"><a href="https://novatextile.tech">NovaTextile — fashion & textile</a></td>
+                                    <td title="Computer vision inference for sorting robots">NovaSapien — AI sorter</td>
+                                    <td title="Industrial-grade NFC/RFID tag linking to passports">CirclID — industrial tag</td>
+                                </tr>
+                                <tr>
+                                    <td title="Renewable energy, smart grids, storage"><a href="https://novaenergy.tech">NovaEnergy — power systems</a></td>
+                                    <td title="Advanced sorting, recycling, urban mining"><a href="https://novawaste.tech">NovaWaste — recycling</a></td>
+                                    <td title="Policy-as-code compliance scanning across supply chains">NovaPolicy — policy guard</td>
+                                    <td title="CAD plugin that generates compliant DPPs">MaterialPassportGenerator — SaaS tool</td>
+                                </tr>
+                                <tr>
+                                    <td title="R&D for biomaterials and new recycling tech"><a href="https://novamaterial.tech">NovaMaterial — materials lab</a></td>
+                                    <td title="Carbon capture, pollution monitoring, air quality"><a href="https://novaair.systems">NovaAir — air systems</a></td>
+                                    <td title="Optimizes reverse logistics routes">NovaMobility — routing</td>
+                                    <td title="Bi-directional EV charger enabling V2H/V2G">WattShareController — charger</td>
+                                </tr>
+                                <tr>
+                                    <td title="Reverse logistics, EV fleets, take-back loops"><a href="https://novamobility.tech">NovaMobility — logistics</a></td>
+                                    <td title="Reusable devices, sustainable hospital operations"><a href="https://novahealth.systems">NovaHealth — healthcare</a></td>
+                                    <td title="Coordinates EV fleets to stabilize the grid">NovaEnergy — V2G coordinator</td>
+                                    <td title="Urban furniture with moss filters and sensors">PureAirStation — air bench</td>
+                                </tr>
+                                <tr>
+                                    <td title="Shared physical infrastructure and hubs"><a href="https://novainfra.systems">NovaInfra — infrastructure backbone</a></td>
+                                    <td title="Circular packaging systems and deposit schemes"><a href="https://novapack.tech">NovaPack — packaging</a></td>
+                                    <td title="Crawls public data for urban mining sources">NovaHub — urban miner</td>
+                                    <td title="Computer-vision bin to prevent mis-sorting in hospitals">MedCycleBin — smart bin</td>
+                                </tr>
+                                <tr>
+                                    <td title="Education and reskilling for green-collar workers"><a href="https://novaskills.education">NovaSkills — human capital</a></td>
+                                    <td title="Electronics repair/refurbishment and device layer"><a href="https://novatronix.tech">NovaTronix — electronics</a></td>
+                                    <td title="Anonymizes healthcare data to protect privacy">NovaHealth — privacy shield</td>
+                                    <td title="Automated disassembly rig for textile preparation">ReformFabric — textile rig</td>
+                                </tr>
+                                <tr>
+                                    <td title="Governance standards and rulebook"><a href="https://novapolicy.global">NovaPolicy — governance</a></td>
+                                    <td title="Green chemistry and chemical leasing models"><a href="https://novachem.tech">NovaChem — chemicals</a></td>
+                                    <td title="Executes performance-based financing settlements">NovaFin — green contracts</td>
+                                    <td title="Standardized toolset for repair cafes">RefurbLabKit — repair tools</td>
+                                </tr>
+                                <tr>
+                                    <td title="Environmental auditor for carbon/water/waste"><a href="https://novabalance.earth">NovaBalance — environmental auditor</a></td>
+                                    <td></td><td></td><td></td>
+                                </tr>
+                                <tr>
+                                    <td title="Social auditor for fair labor and equity"><a href="https://novaequity.org">NovaEquity — social auditor</a></td>
+                                    <td></td><td></td><td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style={{ marginTop: '0.5rem', color: '#666' }}>
+                            Note: Workers and Products shown are representative examples; the list evolves as the ecosystem grows.
+                        </p>
+                        <p>
+                            👉 Explore the full <Link to="/docs/architecture/overview">Architecture Overview</Link> for detailed descriptions and interactions.
+                        </p>
+                    </div>
+                </section>
+
+                {/* Use Case Highlights (Four Levels) */}
+                <section style={{ padding: '2rem 4rem' }}>
+                    <h2>📊 Use case highlights</h2>
+                    <p>
+                        We demonstrate the ecosystem’s scalability and interoperability through four distinct, non‑overlapping levels: <strong> Onboarding & Control</strong>, <strong>Transactional Efficiency</strong>, <strong>Value Chain Coordination</strong>, and <strong>Systemic Transformation</strong>.<br />
+                        Together these levels provide a complete view of how the NovaEco supports individual entry, simple exchanges, coordinated value chains, and complex systemic change across the circular economy.
+                    </p>
+
+
+                    {/* Level 1: Onboarding & Control */}
+                    <h3>Level 1: Onboarding & Control (Foundational integration)</h3>
+                    <p><em>Focus: onboarding, IAM, API setup, inter‑enabler/sector/worker/product integration, data aggregation, dashboards, compliance.</em></p>
+                    <ul>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o1-user-onboarding-trust-profile">[O1] User Onboarding</Link> — Individual registers and joins the ecosystem via Identity, creating a trusted profile.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o2-api-key-generation">[O2] API Key Generation</Link> — Developer generates API keys to integrate enabler/sector services securely.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o3-sustainability-dashboard">[O3] Sustainability Dashboard</Link> — User views personal or organizational impact metrics aggregated across enablers.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o4-cross-sector-data-aggregation">[O4] Cross‑Sector Data Aggregation</Link> — DPP and LCA data ingested from multiple sectors for holistic insights.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o5-circular-marketplace-discovery">[O5] Circular Marketplace Access</Link> — User discovers and connects to sector apps and workers through the central marketplace.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o6-community-governance">[O6] Community Governance</Link> — Contributors propose and vote on changes via NovaPolicy governance modules.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o7-multi-tenant-access-management">[O7] Multi‑Tenant Access Management</Link> — Organizations manage roles, teams, and permissions across apps.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o8-ecosystem-wide-lca-calculation">[O8] Ecosystem‑Wide LCA Calculation</Link> — Automated life‑cycle assessment across products and sectors.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o9-urban-mining-coordination">[O9] Urban Mining Coordination</Link> — Central app orchestrates urban mining projects across enablers and sectors.</li>
+                        <li><Link to="/docs/usecases/level-1-onboarding#o10-central-audit--compliance-dashboard">[O10] Central Audit & Compliance Dashboard</Link> — Unified compliance and ESG dashboard spanning all enablers/sectors.</li>
+                    </ul>
+                    <p style={{ marginTop: '1rem' }}>
+                        👉 Explore the full elaboration of the use case matrix for <Link to="/docs/usecases/level-1-onboarding">Level 1: Onboarding & Control</Link>
+                    </p>
+
+                    {/* Level 2: Easy (Transactional Efficiency) */}
+                    <h3>Level 2: Easy (Transactional efficiency)</h3>
+                    <p><em>Focus: simple, low‑friction transactions involving 1–2 stakeholders.</em></p>
+                    <ul>
+                        <li><Link to="/docs/usecases/level-2-easy#e1-the-waste-match">[E1] The Waste Match</Link> — Bakery waste matched with a local insect farm via NovaHub.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e2-green-tutor">[E2] Green Tutor</Link> — Circular design tutoring booked on NovaSkills, paid via NovaFin.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e3-ride-to-factory">[E3] Ride to Factory</Link> — BMW employees carpool using NovaMobility, micro‑pay via NovaFin.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e4-citizen-sensor">[E4] Citizen Sensor</Link> — River water testing uploaded via NovaWater; verified by NovaBalance.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e5-material-scout">[E5] Material Scout</Link> — Architect catalogs reusable bricks using AI vision; passported in NovaMaterial.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e6-ugly-veggie-box">[E6] Ugly Veggie Box</Link> — Farm lists imperfect produce for direct sale on NovaTrade.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e7-solar-log">[E7] Solar Log</Link> — Homeowner logs daily green energy with NovaEnergy; impact in NovaBalance.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e8-device-return">[E8] Device Return</Link> — Clinic requests pickup via NovaHealth & NovaWaste.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e9-pollen-alert">[E9] Pollen Alert</Link> — Hyper‑local air quality notifications via NovaAir & NovaSapien.</li>
+                        <li><Link to="/docs/usecases/level-2-easy#e10-universal-bowl">[E10] Universal Bowl</Link> — Reusable takeout tracked by Identity; reverse logistics via NovaMobility.</li>
+                    </ul>
+                    <p style={{ marginTop: '1rem' }}>
+                        👉 Explore the full elaboration of the use case matrix for <Link to="/docs/usecases/level-2-easy">Level 2: Easy (Transactional Efficiency)</Link>
+                    </p>
+
+                    {/* Level 3: Medium (Value Chain Coordination) */}
+                    <h3>Level 3: Medium (Value chain coordination)</h3>
+                    <p><em>Focus: B2B transactions, multi‑stakeholder coordination, compliance checks, simple audits.</em></p>
+                    <ul>
+                        <li><Link to="/docs/usecases/level-3-medium#m1-startup-funding">[M1] Startup Funding</Link> — NovaHub matches capital, mentorship, lab space.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m2-furniture-loop">[M2] Furniture Loop</Link> — Siemens chairs reused by Munich Re; logistics via NovaMobility.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m3-compliance-check">[M3] Compliance Check</Link> — Textile importer certs validated by NovaPolicy + NovaSapien.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m4-smart-bin-route">[M4] Smart Bin Route</Link> — Route optimization via NovaMobility & NovaSapien.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m5-fair-wage-audit">[M5] Fair Wage Audit</Link> — Split payments via NovaFin; NovaEquity badge on confirmation.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m6-v2g-balancing">[M6] V2G Balancing</Link> — EV fleet sells capacity via NovaEnergy; settlement via NovaFin.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m7-plastic-passport">[M7] Plastic Passport</Link> — DPP for rPET via NovaMaterial & NovaPolicy.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m8-greywater-share">[M8] Greywater Share</Link> — Data center heat/greywater to greenhouse via NovaInfra; audited in NovaBalance.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m9-corporate-refurb">[M9] Corporate Refurb</Link> — Bank laptops refurbished, data‑wipe certified; resale via NovaTrade.</li>
+                        <li><Link to="/docs/usecases/level-3-medium#m10-solvent-lease">[M10] Solvent Lease</Link> — Filtration via NovaWater; QA via NovaSapien.</li>
+                    </ul>
+                    <p style={{ marginTop: '1rem' }}>
+                        👉 Explore the full elaboration of the use case matrix for <Link to="/docs/usecases/level-3-medium">Level 3: Medium (Value Chain Coordination)</Link>
+                    </p>
+
+                    {/* Level 4: Complex (Systemic Transformation) */}
+                    <h3>Level 4: Complex (Systemic transformation)</h3>
+                    <p><em>Focus: system‑of‑systems, real‑time AI optimization, policy‑as‑code, cross‑border compliance.</em></p>
+                    <ul>
+                        <li><Link to="/docs/usecases/level-4-complex#c1-city-challenge">[C1] City Challenge</Link> — Munich consortium (Agro, Waste, Logistics), grants via NovaFin, governance via NovaPolicy.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c2-building-as-bank">[C2] Building‑as‑Bank</Link> — Assets tracked for futures; LCA via NovaBalance; listing via NovaTrade.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c3-fiber-to-fiber">[C3] Fiber‑to‑Fiber</Link> — AI sorting via NovaSapien; chemical recycling via NovaMaterial; logistics via NovaMobility.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c4-circular-hospital">[C4] Circular Hospital</Link> — Pay‑per‑scan leasing via NovaFin; sterilization hub via NovaInfra.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c5-automated-carbon-trading">[C5] Automated Carbon Trading</Link> — Sensors verify capture; credits via NovaTrade; community dividend via NovaEquity.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c6-autonomous-logistics">[C6] Autonomous Logistics</Link> — DurasAGV swarm coordinated by NovaSapien; charging via NovaEnergy.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c7-algorithmic-governance">[C7] Algorithmic Governance</Link> — EU laws as code; gatekeeping via NovaTrade; Identity and NovaMaterial compliance.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c8-urban-air-twin">[C8] Urban Air Twin</Link> — Dynamic toll pricing via NovaFin; pollution data via NovaAir.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c9-global-green-corps">[C9] Global Green Corps</Link> — Remote ops via NovaInfra; fair pay audited via NovaEquity.</li>
+                        <li><Link to="/docs/usecases/level-4-complex#c10-city-wide-loop">[C10] City‑Wide Loop</Link> — Unified cup deposit; washing via NovaWater; logistics via NovaMobility.</li>
+                    </ul>
+                    <p style={{ marginTop: '1rem' }}>
+                        👉 Explore the full elaboration of the use case matrix for <Link to="/docs/usecases/level-4-complex">Level 4: Complex (Systemic Transformation)</Link>
+                    </p>
+                </section>
+
+                {/* Collaboration & Legal */}
+                <section style={{ padding: '2rem 4rem' }}>
+                    <h2>🤝 Collaboration & legal</h2>
+                    <p>
+                        Contributions are governed by our <a href="https://github.com/novaeco-tech/.github/blob/main/CONTRIBUTING.md">Contribution Guide</a> and
+                        <a href="https://github.com/novaeco-tech/.github/blob/main/CODE_OF_CONDUCT.md"> Code of Conduct</a>. Sponsorship agreements are managed via
+                        <a href="https://circular.engineering"> Circular Engineering Nova GmbH</a>.
+                    </p>
+                </section>
+
+                {/* Blog */}
+                <section style={{ padding: '2rem 4rem' }}>
+                    <h2>📰 Latest updates</h2>
+                    <p>
+                        Check our <Link to="/blog">Blog</Link> for news, releases, and ecosystem stories.
+                    </p>
+                </section>
+            </main>
+        </Layout>
+    );
+}
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/src/css/custom.css
+================================================================================
+
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+:root {
+    --ifm-color-primary: #2e8555;
+    --ifm-color-primary-dark: #29784c;
+    --ifm-color-primary-darker: #277148;
+    --ifm-color-primary-darkest: #205d3b;
+    --ifm-color-primary-light: #33925d;
+    --ifm-color-primary-lighter: #359962;
+    --ifm-color-primary-lightest: #3cad6e;
+    --ifm-code-font-size: 95%;
+}
+
+.docusaurus-highlight-code-line {
+    background-color: rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 calc(-1 * var(--ifm-pre-padding));
+    padding: 0 var(--ifm-pre-padding);
+}
+
+/* Global wrapper for all pages */
+.main-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    /* center horizontally */
+}
+
+/* Content containers (docs, blog, etc.) */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Limit navbar inner content */
+.navbar__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    /* optional side padding */
+}
+
+/* Limit footer inner content */
+.footer__links,
+.footer__bottom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Force the footer columns to spread out (Community Left <-> Legal Right) */
+@media (min-width: 997px) {
+    .footer__links {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Optional: Align the text inside the Legal column to the right */
+    .footer__col:last-child {
+        text-align: right;
+        align-items: flex-end;
+    }
+}
+
+html[data-theme='dark'].docusaurus-highlight-code-line {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/website/src/components/__tests__/placeholder.test.js
+================================================================================
+
+describe('Website Placeholder', () => {
+    it('should pass CI check', () => {
+        expect(true).toBe(true);
+    });
+});
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/README.md
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/requirements.txt
+================================================================================
+
+flask==3.0.0
+flask-cors==4.0.0
+gunicorn==21.2.0
+requests==2.31.0
+python-dotenv==1.0.0
+ecosystem-core-auth-client==0.1.1
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/tests/test_placeholder.py
+================================================================================
+
+def test_api_placeholder():
+    """A simple passing test to ensure CI infrastructure works."""
+    assert True
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/VERSION
+================================================================================
+
+0.1.0
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/requirements-dev.txt
+================================================================================
+
+-r requirements.txt
+pytest==8.0.0
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/src/middleware.py
+================================================================================
+
+from ecosystem_core_auth_client import AuthServiceStub
+import grpc
+import os
+
+# Connect to the internal gRPC port
+AUTH_URL = os.environ.get("ECOSYSTEM_CORE_AUTH_GRPC_URL", "ecosystem-core-auth:9090")
+channel = grpc.insecure_channel(AUTH_URL)
+client = AuthServiceStub(channel)
+
+def check_permission(token):
+    # Fast internal call
+    response = client.ValidateToken(token=token)
+    return response.is_valid
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/api/src/main.py
+================================================================================
+
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "ok", "service": "api"})
+
+@app.route('/')
+def root():
+    return jsonify({"message": "Welcome to the NovaEco API Gateway"})
+
+if __name__ == '__main__':
+    # Host 0.0.0.0 is CRITICAL for docker accessibility
+    app.run(host='0.0.0.0', port=8000)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/tests/integration/requirements.txt
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/tests/integration/test_auth_flow.py
+================================================================================
+
+import requests
+import os
+import time
+
+# Service URLs are based on the docker-compose.yml service names
+AUTH_URL = "http://auth:9000"
+API_URL = "http://api:8000"
+
+def test_auth_service_is_live():
+    """Test that the auth service is up and responding."""
+    retries = 5
+    for i in range(retries):
+        try:
+            response = requests.get(f"{AUTH_URL}/health")
+            assert response.status_code == 200
+            return
+        except requests.ConnectionError:
+            time.sleep(5)
+    assert False, "Auth service was not ready in time."
+
+def test_api_service_is_live():
+    """Test that the api service is up and responding."""
+    retries = 5
+    for i in range(retries):
+        try:
+            response = requests.get(f"{API_URL}/health")
+            assert response.status_code == 200
+            return
+        except requests.ConnectionError:
+            time.sleep(5)
+    assert False, "API service was not ready in time."
+
+def test_full_login_and_api_call():
+    """
+    Integration Test:
+    1. Get a test token from the /auth service.
+    2. Use that token to call a protected endpoint on the /api service.
+    """
+    
+    # Step 1: Get token from Auth service
+    # (This is a simplified example; your service might have a /login route)
+    token_response = requests.post(f"{AUTH_URL}/get-test-token")
+    assert token_response.status_code == 200
+    token = token_response.json().get("access_token")
+    assert token is not None
+
+    # Step 2: Use token to call protected API service
+    headers = { "Authorization": f"Bearer {token}" }
+    api_response = requests.get(f"{API_URL}/v1/protected/me", headers=headers)
+    
+    assert api_response.status_code == 200
+    assert api_response.json().get("user_id") == "test-user"
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/tests/e2e/test_homepage.spec.ts
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/merged.txt
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/README.md
+================================================================================
+
+
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/requirements.txt
+================================================================================
+
+flask==3.0.0
+requests==2.31.0
+gunicorn==21.2.0
+python-dotenv==1.0.0
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/tests/test_placeholder.py
+================================================================================
+
+def test_app_placeholder():
+    """A simple passing test to ensure CI infrastructure works."""
+    assert True
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/VERSION
+================================================================================
+
+0.1.0
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/requirements-dev.txt
+================================================================================
+
+-r requirements.txt
+pytest==8.0.0
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/app.py
+================================================================================
+
+from flask import Flask, render_template_string
+import requests
+import os
+
+app = Flask(__name__)
+
+API_URL = os.environ.get("API_URL", "http://localhost:8000")
+
+@app.route('/')
+def dashboard():
+    # Example: The App calls the API to get status
+    try:
+        # This call happens inside the docker network
+        response = requests.get(f"{API_URL}/health")
+        api_status = response.json()
+    except:
+        api_status = {"status": "offline"}
+
+    html = f"""
+    <h1>NovaEco Mission Control</h1>
+    <p>Status: Online</p>
+    <p>API Connection: {api_status}</p>
+    """
+    return render_template_string(html)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
+================================================================================
+### FILE: /home/clau/work/novaeco-tech/repos/novaagro/app/src/.gitkeep
+================================================================================
+
+
+
+
+
